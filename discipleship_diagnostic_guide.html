@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Conversational Diagnostic Guide — Integrated Framework</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Source+Sans+3:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --ink:     #1c1c1a;
+  --ink2:    #3d3d38;
+  --ink3:    #6b6b62;
+  --paper:   #faf8f3;
+  --paper2:  #f2ede3;
+  --paper3:  #e6dfd0;
+  --rule:    #d4cdc0;
+  --gold:    #8a6a28;
+  --gold2:   #b08c40;
+
+  /* Phase colors — muted, printable */
+  --p1: #787068;
+  --p2: #7a5c1a;
+  --p3: #2a6644;
+  --p4: #1e4d7a;
+  --p5: #5a2a80;
+
+  --sans: 'Source Sans 3', Georgia, sans-serif;
+  --serif: 'Libre Baskerville', 'Times New Roman', serif;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 15px;
+  font-weight: 300;
+  line-height: 1.65;
+}
+
+/* ── PAGE ── */
+.page {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 3.5rem 2.5rem 5rem;
+}
+
+/* ── MASTHEAD ── */
+.masthead {
+  border-bottom: 2px solid var(--ink);
+  padding-bottom: 1.25rem;
+  margin-bottom: 2rem;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.masthead-title {
+  font-family: var(--serif);
+  font-size: clamp(1.3rem, 3vw, 1.7rem);
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--ink);
+}
+.masthead-sub {
+  font-size: 13px;
+  color: var(--ink3);
+  letter-spacing: .03em;
+  margin-top: 4px;
+}
+.masthead-tag {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--ink3);
+  text-align: right;
+  white-space: nowrap;
+}
+
+/* ── PREAMBLE ── */
+.preamble {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin-bottom: 2.5rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid var(--rule);
+}
+.preamble-block {}
+.preamble-lbl {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 6px;
+}
+.preamble-body {
+  font-size: 14px;
+  color: var(--ink2);
+  line-height: 1.65;
+}
+.preamble-body em {
+  font-family: var(--serif);
+  font-style: italic;
+}
+
+/* ── SECTION HEADERS ── */
+.section-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 1.5rem;
+}
+.section-head-num {
+  font-family: var(--serif);
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: var(--rule);
+  line-height: 1;
+  flex-shrink: 0;
+  user-select: none;
+}
+.section-head-text {}
+.section-head-label {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 2px;
+}
+.section-head-title {
+  font-family: var(--serif);
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1.25;
+}
+
+/* ── QUESTIONS ── */
+.questions-section { margin-bottom: 3rem; }
+
+.q-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.q-item {
+  display: grid;
+  grid-template-columns: 40px 1fr;
+  border-bottom: 1px solid var(--rule);
+}
+.q-item:last-child { border-bottom: none; }
+
+.q-num-col {
+  background: var(--paper2);
+  border-right: 1px solid var(--rule);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 1.1rem .5rem;
+  font-family: var(--serif);
+  font-size: .85rem;
+  font-weight: 700;
+  color: var(--ink3);
+  flex-shrink: 0;
+}
+
+.q-body { padding: 1.1rem 1.25rem; }
+
+.q-text {
+  font-family: var(--serif);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1.4;
+  margin-bottom: .5rem;
+}
+
+.q-intent {
+  font-size: 13px;
+  color: var(--ink3);
+  line-height: 1.6;
+  font-style: italic;
+}
+
+.q-listen {
+  margin-top: .75rem;
+  background: var(--paper2);
+  border-radius: 4px;
+  padding: .65rem .9rem;
+  font-size: 12.5px;
+  color: var(--ink2);
+  line-height: 1.6;
+}
+.q-listen strong {
+  font-weight: 600;
+  color: var(--ink);
+}
+
+/* ── SIGNALS ── */
+.signals-section { margin-bottom: 3rem; }
+
+.signals-note {
+  font-size: 14px;
+  color: var(--ink2);
+  margin-bottom: 1.5rem;
+  padding: .9rem 1.1rem;
+  background: var(--paper2);
+  border-left: 3px solid var(--gold2);
+  border-radius: 0 4px 4px 0;
+  line-height: 1.7;
+}
+.signals-note strong { font-weight: 600; color: var(--ink); }
+
+.phase-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.phase-row {
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.phase-row-head {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0;
+  cursor: pointer;
+  user-select: none;
+}
+
+.phase-badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  flex-shrink: 0;
+  font-family: var(--serif);
+  font-size: .75rem;
+  font-weight: 700;
+  writing-mode: vertical-lr;
+  text-orientation: mixed;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  padding: .75rem .5rem;
+}
+
+.phase-row-summary {
+  padding: .85rem 1.1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.phase-name {
+  font-family: var(--serif);
+  font-size: .95rem;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 3px;
+}
+.phase-tagline {
+  font-size: 12.5px;
+  color: var(--ink3);
+  font-style: italic;
+}
+
+.toggle-icon {
+  width: 20px; height: 20px;
+  border: 1.5px solid var(--rule);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  font-size: 12px;
+  color: var(--ink3);
+  transition: transform .2s, border-color .2s;
+}
+.phase-row.open .toggle-icon {
+  transform: rotate(180deg);
+  border-color: var(--ink3);
+}
+
+.phase-body {
+  display: none;
+  padding: 0 1.1rem 1.1rem;
+  border-top: 1px solid var(--rule);
+}
+.phase-row.open .phase-body { display: block; }
+
+.signals-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-top: .9rem;
+}
+
+.signal-col {}
+.signal-col-lbl {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--ink3);
+  margin-bottom: .5rem;
+  padding-bottom: .4rem;
+  border-bottom: 1px solid var(--rule);
+}
+.signal-phrases {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.signal-phrases li {
+  font-size: 13px;
+  color: var(--ink2);
+  line-height: 1.5;
+  padding-left: .9rem;
+  position: relative;
+}
+.signal-phrases li::before {
+  content: '"';
+  position: absolute;
+  left: 0;
+  color: var(--gold2);
+  font-family: var(--serif);
+  font-size: 1rem;
+  line-height: 1;
+  top: 3px;
+}
+.signal-cues li::before {
+  content: '—';
+  position: absolute;
+  left: 0;
+  color: var(--ink3);
+  font-size: .85rem;
+}
+
+.danger-note {
+  margin-top: .9rem;
+  font-size: 13px;
+  color: var(--ink2);
+  padding: .65rem .9rem;
+  border-left: 2px solid;
+  border-radius: 0 4px 4px 0;
+  background: var(--paper2);
+  line-height: 1.6;
+}
+.danger-note strong { font-weight: 600; }
+
+/* Phase color assignments */
+.ph1 .phase-badge { background: #e8e5e0; color: var(--p1); }
+.ph1 .phase-row-head { background: #f7f5f1; }
+.ph1 .danger-note { border-color: var(--p1); }
+
+.ph2 .phase-badge { background: #f5edda; color: var(--p2); }
+.ph2 .phase-row-head { background: #fdf8ef; }
+.ph2 .danger-note { border-color: var(--p2); }
+
+.ph3 .phase-badge { background: #d8ede2; color: var(--p3); }
+.ph3 .phase-row-head { background: #f0faf4; }
+.ph3 .danger-note { border-color: var(--p3); }
+
+.ph4 .phase-badge { background: #d5e5f5; color: var(--p4); }
+.ph4 .phase-row-head { background: #f0f6fd; }
+.ph4 .danger-note { border-color: var(--p4); }
+
+.ph5 .phase-badge { background: #e5d5f5; color: var(--p5); }
+.ph5 .phase-row-head { background: #f7f0fd; }
+.ph5 .danger-note { border-color: var(--p5); }
+
+/* ── POSTURE SECTION ── */
+.posture-section { margin-bottom: 3rem; }
+.posture-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--rule);
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  overflow: hidden;
+}
+.posture-card {
+  background: var(--paper);
+  padding: 1rem 1.1rem;
+}
+.posture-lbl {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: .5rem;
+}
+.posture-body {
+  font-size: 13.5px;
+  color: var(--ink2);
+  line-height: 1.65;
+}
+
+/* ── FOOT NOTE ── */
+.footnote {
+  margin-top: 2.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--rule);
+  font-size: 12.5px;
+  color: var(--ink3);
+  line-height: 1.7;
+  font-style: italic;
+}
+
+/* ── PRINT ── */
+@media print {
+  body { background: #fff; font-size: 11pt; }
+  .page { padding: 1.5cm 1.5cm 2cm; max-width: none; }
+  .phase-body { display: block !important; }
+  .toggle-icon { display: none; }
+}
+
+/* ── MOBILE ── */
+@media (max-width: 600px) {
+  .page { padding: 2rem 1.25rem 4rem; }
+  .preamble { grid-template-columns: 1fr; gap: 1rem; }
+  .signals-grid { grid-template-columns: 1fr; }
+  .posture-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- MASTHEAD -->
+  <div class="masthead">
+    <div>
+      <div class="masthead-title">Conversational Diagnostic Guide</div>
+      <div class="masthead-sub">Forming Intentional Disciples — Integrated Framework</div>
+    </div>
+    <div class="masthead-tag">Training Resource<br>Experienced Men's Ministry Leaders</div>
+  </div>
+
+  <!-- PREAMBLE -->
+  <div class="preamble">
+    <div class="preamble-block">
+      <div class="preamble-lbl">Purpose</div>
+      <div class="preamble-body">
+        This guide trains experienced men to correctly identify where another man is in the Integrated Framework through natural conversation — not a formal assessment. The goal is to <em>read what a man reveals about himself</em> in ordinary speech.
+      </div>
+    </div>
+    <div class="preamble-block">
+      <div class="preamble-lbl">Core principle</div>
+      <div class="preamble-body">
+        Listen for <em>how</em> a man talks about his faith as much as <em>what</em> he says. Vocabulary, framing, emotional tone, and whether he speaks in first or third person are often more diagnostic than the content of his answers.
+      </div>
+    </div>
+  </div>
+
+  <!-- PART 1: QUESTIONS -->
+  <div class="questions-section">
+    <div class="section-head">
+      <div class="section-head-num">I</div>
+      <div class="section-head-text">
+        <div class="section-head-label">Part One</div>
+        <div class="section-head-title">Five Diagnostic Questions</div>
+      </div>
+    </div>
+
+    <div class="q-grid">
+
+      <div class="q-item">
+        <div class="q-num-col">1</div>
+        <div class="q-body">
+          <div class="q-text">"Tell me about your relationship with God — what's it actually like right now?"</div>
+          <div class="q-intent">The master diagnostic. Opens everything. Let him answer without rescuing him from silence.</div>
+          <div class="q-listen">
+            <strong>Listen for:</strong> Does he describe a <em>relationship</em> or a <em>practice</em>? Does he say "Jesus" personally or "God" abstractly? Does he speak in first person ("I talked to Him about...") or institutional third person ("The Church teaches...")?
+          </div>
+        </div>
+      </div>
+
+      <div class="q-item">
+        <div class="q-num-col">2</div>
+        <div class="q-body">
+          <div class="q-text">"Was there ever a moment when your faith became personally yours — not just something you were handed?"</div>
+          <div class="q-intent">The conversion hinge. Separates Phase 1–2 from Phase 3 and above.</div>
+          <div class="q-listen">
+            <strong>Listen for:</strong> Can he name a specific moment, season, or decision? Is the language personal and owned, or vague and deflecting? If he says "I've always believed," probe: "Has it always felt this personal to you?"
+          </div>
+        </div>
+      </div>
+
+      <div class="q-item">
+        <div class="q-num-col">3</div>
+        <div class="q-body">
+          <div class="q-text">"What happened to your faith the last time your life got really hard?"</div>
+          <div class="q-intent">The soil test. Nothing reveals depth like what faith does under pressure.</div>
+          <div class="q-listen">
+            <strong>Listen for:</strong> Was faith relevant to the hard time, or completely separate from it? Did it hold, deepen, or fade? "I got through it" is not an answer — push gently: "Did your relationship with God get closer or more distant during that?"
+          </div>
+        </div>
+      </div>
+
+      <div class="q-item">
+        <div class="q-num-col">4</div>
+        <div class="q-body">
+          <div class="q-text">"What's the one thing that most gets between you and the man you know you're supposed to be?"</div>
+          <div class="q-intent">Reveals the dominant thorn, the happiness level, and how much honest self-awareness exists.</div>
+          <div class="q-listen">
+            <strong>Listen for:</strong> Does he give a safe, surface answer — or name something real with specificity? Does he have a plan of attack (accountability, spiritual direction)? Or does he name it and shrug? Shame without accountability suggests Phase 2–3.
+          </div>
+        </div>
+      </div>
+
+      <div class="q-item">
+        <div class="q-num-col">5</div>
+        <div class="q-body">
+          <div class="q-text">"Is there anyone walking alongside you in your faith right now — and is there anyone you're walking with?"</div>
+          <div class="q-intent">The fatherhood diagnostic. Always ask both directions: being mentored and mentoring.</div>
+          <div class="q-listen">
+            <strong>Listen for:</strong> Does he name specific people, or speak in generalities? Does he see himself as someone others need, or only as someone who needs others? Phase 5 men instinctively ask this question back to you.
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div><!-- /questions-section -->
+
+  <!-- PART 2: SIGNALS -->
+  <div class="signals-section">
+    <div class="section-head">
+      <div class="section-head-num">II</div>
+      <div class="section-head-text">
+        <div class="section-head-label">Part Two</div>
+        <div class="section-head-title">Key Phrases &amp; Signals by Phase</div>
+      </div>
+    </div>
+
+    <div class="signals-note">
+      <strong>How to use this section:</strong> These are patterns to <em>listen for</em>, not boxes to force a man into. Most men will show signals across two adjacent phases — when that happens, place him in the lower one. Click or tap each phase to expand its signals. All phases print fully expanded.
+    </div>
+
+    <div class="phase-rows">
+
+      <!-- PHASE 1 -->
+      <div class="phase-row ph1" id="ph1">
+        <div class="phase-row-head" onclick="toggle('ph1')">
+          <div class="phase-badge">Phase 1</div>
+          <div class="phase-row-summary">
+            <div>
+              <div class="phase-name">Pre-Evangelization</div>
+              <div class="phase-tagline">Faith is cultural, inherited, or institutional — not personal</div>
+            </div>
+            <div class="toggle-icon">▾</div>
+          </div>
+        </div>
+        <div class="phase-body">
+          <div class="signals-grid">
+            <div class="signal-col">
+              <div class="signal-col-lbl">Phrases you're likely to hear</div>
+              <ul class="signal-phrases">
+                <li>I was raised Catholic</li>
+                <li>I go to Mass when I can</li>
+                <li>I believe in something</li>
+                <li>Religion is important to me / my family</li>
+                <li>I'm not really into organized religion but...</li>
+                <li>The Church teaches... / Catholics believe...</li>
+                <li>I'm not sure God is that personal</li>
+              </ul>
+            </div>
+            <div class="signal-col">
+              <div class="signal-col-lbl">Behavioral &amp; posture cues</div>
+              <ul class="signal-phrases signal-cues">
+                <li>Describes faith in third person or institutional terms</li>
+                <li>Never says "Jesus" personally — always "God" in the abstract</li>
+                <li>Can describe Catholic practice but not personal encounter</li>
+                <li>When asked about prayer, pivots to what he does, not who he knows</li>
+                <li>Changes subject or gets uncomfortable when faith gets personal</li>
+                <li>Faith and life are in separate compartments</li>
+              </ul>
+            </div>
+          </div>
+          <div class="danger-note"><strong>Watch for:</strong> Men who are devout practitioners — daily Mass, rosary, active in parish — can still be in Phase 1 if the practice has never produced a personal encounter. Do not let the religious activity mislead you.</div>
+        </div>
+      </div>
+
+      <!-- PHASE 2 -->
+      <div class="phase-row ph2" id="ph2">
+        <div class="phase-row-head" onclick="toggle('ph2')">
+          <div class="phase-badge">Phase 2</div>
+          <div class="phase-row-summary">
+            <div>
+              <div class="phase-name">Evangelization</div>
+              <div class="phase-tagline">Something is stirring — questions forming, but faith not yet personally owned</div>
+            </div>
+            <div class="toggle-icon">▾</div>
+          </div>
+        </div>
+        <div class="phase-body">
+          <div class="signals-grid">
+            <div class="signal-col">
+              <div class="signal-col-lbl">Phrases you're likely to hear</div>
+              <ul class="signal-phrases">
+                <li>I've been thinking about...</li>
+                <li>Something happened and I started wondering...</li>
+                <li>I'm not sure what I believe anymore</li>
+                <li>There has to be more than this</li>
+                <li>I used to be more involved, but...</li>
+                <li>I had an experience that shook me</li>
+                <li>I'm kind of exploring right now</li>
+              </ul>
+            </div>
+            <div class="signal-col">
+              <div class="signal-col-lbl">Behavioral &amp; posture cues</div>
+              <ul class="signal-phrases signal-cues">
+                <li>Faith was activated by a crisis — birth, death, divorce, failure</li>
+                <li>Can describe spiritual questions but not spiritual answers</li>
+                <li>Curiosity is fragile — easily scared off by moralizing or boredom</li>
+                <li>Often has a specific person or event that opened the door</li>
+                <li>May be returning after a long absence from practice</li>
+                <li>Asks questions more than makes statements</li>
+              </ul>
+            </div>
+          </div>
+          <div class="danger-note"><strong>Watch for:</strong> The man whose faith surged after a crisis, filled with enthusiasm — then faded when the crisis resolved. This is rocky-ground Phase 2, not Phase 3 conversion. The test is always: did it hold when the pressure was off?</div>
+        </div>
+      </div>
+
+      <!-- PHASE 3 -->
+      <div class="phase-row ph3" id="ph3">
+        <div class="phase-row-head" onclick="toggle('ph3')">
+          <div class="phase-badge">Phase 3</div>
+          <div class="phase-row-summary">
+            <div>
+              <div class="phase-name">Initial Conversion</div>
+              <div class="phase-tagline">Surrender has occurred — zeal and enthusiasm, but roots still shallow</div>
+            </div>
+            <div class="toggle-icon">▾</div>
+          </div>
+        </div>
+        <div class="phase-body">
+          <div class="signals-grid">
+            <div class="signal-col">
+              <div class="signal-col-lbl">Phrases you're likely to hear</div>
+              <ul class="signal-phrases">
+                <li>Since my retreat... / Since I went to confession...</li>
+                <li>I gave my life to Christ / I surrendered</li>
+                <li>God has been so good to me lately</li>
+                <li>I feel like a completely different person</li>
+                <li>I've been going to daily Mass / confession weekly</li>
+                <li>I never understood this before, but now...</li>
+                <li>I want to tell everyone</li>
+              </ul>
+            </div>
+            <div class="signal-col">
+              <div class="signal-col-lbl">Behavioral &amp; posture cues</div>
+              <ul class="signal-phrases signal-cues">
+                <li>New vocabulary that sometimes feels borrowed, not fully integrated</li>
+                <li>Speaks mostly about what God has done for him — rarely about cost</li>
+                <li>High enthusiasm, but no mention of accountability structure</li>
+                <li>Hasn't been seriously tested yet since the conversion</li>
+                <li>May be intense in a way that's still externalized (doing) not interior (being)</li>
+                <li>Can name the conversion; cannot yet name the ongoing formation</li>
+              </ul>
+            </div>
+          </div>
+          <div class="danger-note"><strong>Watch for:</strong> Conversion zeal is the most common source of over-placement. A man who has surrendered and is on fire feels — and sounds — like Phase 4. The difference is testedness. Has his faith survived something hard since the surrender? If not, he belongs here.</div>
+        </div>
+      </div>
+
+      <!-- PHASE 4 -->
+      <div class="phase-row ph4" id="ph4">
+        <div class="phase-row-head" onclick="toggle('ph4')">
+          <div class="phase-badge">Phase 4</div>
+          <div class="phase-row-summary">
+            <div>
+              <div class="phase-name">Formation</div>
+              <div class="phase-tagline">Intentional disciple in active formation — tested, rooted, still growing</div>
+            </div>
+            <div class="toggle-icon">▾</div>
+          </div>
+        </div>
+        <div class="phase-body">
+          <div class="signals-grid">
+            <div class="signal-col">
+              <div class="signal-col-lbl">Phrases you're likely to hear</div>
+              <ul class="signal-phrases">
+                <li>My men's group... / My spiritual director...</li>
+                <li>I've been convicted about...</li>
+                <li>My faith was tested when... and it held</li>
+                <li>I've been wrong about this and had to change</li>
+                <li>We've been working through... [names a practice]</li>
+                <li>I struggle with [names something real and specific]</li>
+                <li>I've been praying about that for a while now</li>
+              </ul>
+            </div>
+            <div class="signal-col">
+              <div class="signal-col-lbl">Behavioral &amp; posture cues</div>
+              <ul class="signal-phrases signal-cues">
+                <li>Names specific spiritual practices he maintains consistently</li>
+                <li>Honest about ongoing sin and growth areas — not defensive or ashamed</li>
+                <li>References a real accountability relationship by name</li>
+                <li>Speaks about Scripture personally, not academically</li>
+                <li>Can describe where he was wrong and what changed his mind</li>
+                <li>Faith has clearly cost him something and he names it without heroics</li>
+              </ul>
+            </div>
+          </div>
+          <div class="danger-note"><strong>Watch for:</strong> Parish leaders, small group facilitators, and theologically knowledgeable men may sound like Phase 4 while still operating from Phase 3 interior depth. The test is not what he knows or what role he holds — it is whether his faith has been refined by suffering and sustained by ongoing formation.</div>
+        </div>
+      </div>
+
+      <!-- PHASE 5 -->
+      <div class="phase-row ph5" id="ph5">
+        <div class="phase-row-head" onclick="toggle('ph5')">
+          <div class="phase-badge">Phase 5</div>
+          <div class="phase-row-summary">
+            <div>
+              <div class="phase-name">Mission &amp; Fatherhood</div>
+              <div class="phase-tagline">Giving away what he has received — forming others, not just being formed</div>
+            </div>
+            <div class="toggle-icon">▾</div>
+          </div>
+        </div>
+        <div class="phase-body">
+          <div class="signals-grid">
+            <div class="signal-col">
+              <div class="signal-col-lbl">Phrases you're likely to hear</div>
+              <ul class="signal-phrases">
+                <li>The guy I'm walking with... [names him]</li>
+                <li>When I was in his shoes, I...</li>
+                <li>He's almost ready to lead his own group</li>
+                <li>I've been trying to get [name] to come to...</li>
+                <li>What I've learned after years of this is...</li>
+                <li>I don't know — but I know who does</li>
+                <li>I find my deepest joy in watching men change</li>
+              </ul>
+            </div>
+            <div class="signal-col">
+              <div class="signal-col-lbl">Behavioral &amp; posture cues</div>
+              <ul class="signal-phrases signal-cues">
+                <li>Speaks about faith primarily in terms of what others need to receive</li>
+                <li>Language of releasing: "He's ready..." / "I sent him to..."</li>
+                <li>Asks more questions than he answers — genuinely curious about you</li>
+                <li>Can name the men he has formed and where they are now</li>
+                <li>Says "I don't know" with confidence — has shed the need for answers</li>
+                <li>His spiritual conversation instinctively turns toward your formation</li>
+              </ul>
+            </div>
+          </div>
+          <div class="danger-note"><strong>Watch for:</strong> This is the rarest placement. A man who leads a ministry, gives talks, or is widely respected can still be in Phase 4. The test: can he name specific men he is intentionally forming right now, and can he describe the fruit? If not, place him in Phase 4.</div>
+        </div>
+      </div>
+
+    </div><!-- /phase-rows -->
+  </div><!-- /signals-section -->
+
+  <!-- PART 3: POSTURE -->
+  <div class="posture-section">
+    <div class="section-head">
+      <div class="section-head-num">III</div>
+      <div class="section-head-text">
+        <div class="section-head-label">Part Three</div>
+        <div class="section-head-title">Posture for the Conversation</div>
+      </div>
+    </div>
+    <div class="posture-grid">
+      <div class="posture-card">
+        <div class="posture-lbl">Ask, don't diagnose</div>
+        <div class="posture-body">A man who senses he is being evaluated will perform. Keep the conversation exploratory and warm. Your placement happens after, in your own reflection.</div>
+      </div>
+      <div class="posture-card">
+        <div class="posture-lbl">Silence is data</div>
+        <div class="posture-body">How long a man pauses, whether he changes the subject, and what he won't say are as diagnostic as what he says. Don't fill the silence too fast.</div>
+      </div>
+      <div class="posture-card">
+        <div class="posture-lbl">Match his vocabulary, not yours</div>
+        <div class="posture-body">Reflect his language back to him. Don't introduce theological vocabulary he hasn't used — it signals inauthenticity and closes the conversation.</div>
+      </div>
+      <div class="posture-card">
+        <div class="posture-lbl">One question per meeting</div>
+        <div class="posture-body">These five questions are spread across multiple conversations, not a single interview. Each question deserves real time. Depth comes from frequency, not speed.</div>
+      </div>
+      <div class="posture-card">
+        <div class="posture-lbl">Default to the lower phase</div>
+        <div class="posture-body">When a man's signals span two phases, always place him in the lower. Underestimating depth means he receives challenge he can grow from. Overestimating it means he receives nothing he needs.</div>
+      </div>
+      <div class="posture-card">
+        <div class="posture-lbl">You are the pastoral response</div>
+        <div class="posture-body">The point of the placement is not a label — it is knowing what to offer this man next. The question after placement is always: what does he need from me, and who else should be in his life?</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footnote">
+    Adapted from the Integrated Framework for Catholic Men's Ministry — integrating Waddell's Thresholds of Discipleship, the Soil Typology of the Parable of the Sower, the Spiritual Lifestages of Men, and Fr. Robert Spitzer's Four Levels of Happiness. This guide is a training supplement to the full framework document and the parish assessment tool.
+  </div>
+
+</div><!-- /page -->
+
+<script>
+function toggle(id) {
+  const el = document.getElementById(id);
+  el.classList.toggle('open');
+}
+// Open first two by default for orientation
+document.getElementById('ph1').classList.add('open');
+document.getElementById('ph2').classList.add('open');
+</script>
+</body>
+</html>
