@@ -1,0 +1,964 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Forming Intentional Disciples — Men's Assessment</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --navy:    #0f1826;
+    --navy2:   #172035;
+    --navy3:   #1e2d47;
+    --cream:   #f0ead8;
+    --cream2:  #e4dcc8;
+    --cream3:  #cfc5ae;
+    --gold:    #b8934a;
+    --gold2:   #d4ac6a;
+    --gold3:   #e8cfa0;
+    --muted:   #7a8899;
+    --red:     #c0392b;
+    --green:   #1a5c3a;
+    --blue:    #1a3a5c;
+    --amber:   #7a4f12;
+    --purple:  #3a1a5c;
+    --sans: 'Crimson Pro', Georgia, serif;
+    --serif: 'Cormorant Garamond', 'Times New Roman', serif;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--navy);
+    color: var(--cream);
+    /*font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;*/
+    font-family: var(--sans); 
+    font-size: 18px;
+    font-weight: 300;
+    line-height: 1.7;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── TEXTURE ── */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image:
+      radial-gradient(ellipse 80% 60% at 15% 20%, rgba(184,147,74,0.06) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 80% at 85% 75%, rgba(15,24,38,0.8) 0%, transparent 70%);
+    pointer-events: none; z-index: 0;
+  }
+
+  /* ── LAYOUT ── */
+  #app {
+    position: relative; z-index: 1;
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 3rem 2rem 6rem;
+    min-height: 100vh;
+  }
+
+  /* ── SCREEN TRANSITIONS ── */
+  .screen {
+    animation: fadeUp .45s ease both;
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(18px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .screen.out {
+    animation: fadeDown .25s ease both;
+  }
+  @keyframes fadeDown {
+    from { opacity: 1; transform: translateY(0); }
+    to   { opacity: 0; transform: translateY(-12px); }
+  }
+
+  /* ── WORDMARK / HEADER ── */
+  .wordmark {
+    display: flex; align-items: center; gap: 14px;
+    margin-bottom: 3.5rem;
+  }
+  .cross-icon {
+    width: 28px; height: 28px; flex-shrink: 0;
+    position: relative;
+  }
+  .cross-icon::before, .cross-icon::after {
+    content: ''; position: absolute;
+    background: var(--gold); border-radius: 1px;
+  }
+  .cross-icon::before { width: 3px; height: 100%; left: 50%; top: 0; transform: translateX(-50%); }
+  .cross-icon::after  { width: 70%; height: 3px; left: 15%; top: 32%; }
+  .wordmark-text {
+    font-family: var(--serif);
+    font-size: 13px;
+    font-weight: 400;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--gold2);
+  }
+
+  /* ── INTRO SCREEN ── */
+  .intro-eyebrow {
+    font-family: var(--sans);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1rem;
+  }
+  .intro-title {
+    font-family: var(--serif);
+    font-size: clamp(2.4rem, 6vw, 3.6rem);
+    font-weight: 500;
+    line-height: 1.15;
+    color: var(--cream);
+    margin-bottom: 1.2rem;
+  }
+  .intro-title em {
+    font-style: italic;
+    color: var(--gold2);
+  }
+  .intro-subtitle {
+    font-size: 17px;
+    color: var(--cream3);
+    line-height: 1.75;
+    margin-bottom: 2rem;
+    max-width: 580px;
+  }
+  .rule {
+    width: 48px; height: 1px;
+    background: var(--gold);
+    margin: 2rem 0;
+    opacity: .6;
+  }
+  .framework-pills {
+    display: flex; flex-wrap: wrap; gap: 8px;
+    margin-bottom: 2.5rem;
+  }
+  .pill {
+    font-size: 12px;
+    font-weight: 400;
+    letter-spacing: .04em;
+    padding: 5px 14px;
+    border: 1px solid rgba(184,147,74,.35);
+    border-radius: 100px;
+    color: var(--gold3);
+  }
+  .bias-callout {
+    background: rgba(184,147,74,.07);
+    border-left: 2px solid var(--gold);
+    border-radius: 0 6px 6px 0;
+    padding: 1rem 1.25rem;
+    margin-bottom: 2.5rem;
+    font-size: 15px;
+    color: var(--cream3);
+    line-height: 1.7;
+  }
+  .bias-callout strong {
+    color: var(--gold2);
+    font-weight: 600;
+  }
+  .meta-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 1px; background: rgba(255,255,255,.07);
+    border: 1px solid rgba(255,255,255,.07);
+    border-radius: 8px; overflow: hidden;
+    margin-bottom: 2.5rem;
+  }
+  .meta-item {
+    background: var(--navy2);
+    padding: 1rem;
+    text-align: center;
+  }
+  .meta-num {
+    font-family: var(--serif);
+    font-size: 2rem;
+    font-weight: 500;
+    color: var(--gold2);
+    line-height: 1;
+    display: block;
+    margin-bottom: 4px;
+  }
+  .meta-lbl {
+    font-size: 12px;
+    color: var(--muted);
+    letter-spacing: .05em;
+  }
+  .btn-primary {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: var(--gold);
+    color: var(--navy);
+    font-family: var(--sans);
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    padding: 14px 32px;
+    border: none; border-radius: 4px;
+    cursor: pointer;
+    transition: background .2s, transform .15s;
+  }
+  .btn-primary:hover { background: var(--gold2); transform: translateY(-1px); }
+  .btn-primary:active { transform: translateY(0); }
+  .btn-primary svg { width: 16px; height: 16px; }
+
+  /* ── QUESTION SCREEN ── */
+  .q-header {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 2rem;
+  }
+  .section-badge {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+  .q-counter {
+    font-family: var(--serif);
+    font-size: 15px;
+    color: var(--muted);
+  }
+  .progress-track {
+    height: 2px;
+    background: rgba(255,255,255,.1);
+    border-radius: 2px;
+    margin-bottom: 2.5rem;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--gold), var(--gold2));
+    border-radius: 2px;
+    transition: width .4s cubic-bezier(.4,0,.2,1);
+  }
+  .q-text {
+    font-family: var(--serif);
+    font-size: clamp(1.3rem, 3.5vw, 1.7rem);
+    font-weight: 500;
+    line-height: 1.35;
+    color: var(--cream);
+    margin-bottom: 1.25rem;
+  }
+  .q-guard {
+    display: flex; gap: 10px; align-items: flex-start;
+    background: rgba(255,255,255,.04);
+    border: 1px solid rgba(184,147,74,.2);
+    border-radius: 6px;
+    padding: .75rem 1rem;
+    margin-bottom: 1.75rem;
+    font-size: 14px;
+    color: var(--cream3);
+    line-height: 1.6;
+    font-style: italic;
+  }
+  .guard-icon {
+    width: 16px; height: 16px; flex-shrink: 0;
+    margin-top: 3px;
+    color: var(--gold);
+  }
+  .opts { display: flex; flex-direction: column; gap: 10px; margin-bottom: 2.5rem; }
+  .opt {
+    padding: 14px 18px;
+    border: 1px solid rgba(255,255,255,.1);
+    border-radius: 6px;
+    cursor: pointer;
+    font-family: var(--sans);
+    font-size: 16px;
+    font-weight: 300;
+    color: var(--cream2);
+    line-height: 1.55;
+    background: rgba(255,255,255,.02);
+    transition: border-color .15s, background .15s, color .15s;
+    position: relative;
+    padding-left: 48px;
+  }
+  .opt::before {
+    content: '';
+    position: absolute; left: 16px; top: 50%;
+    transform: translateY(-50%);
+    width: 16px; height: 16px;
+    border: 1.5px solid rgba(255,255,255,.25);
+    border-radius: 50%;
+    transition: border-color .15s, background .15s;
+  }
+  .opt:hover {
+    border-color: rgba(184,147,74,.45);
+    background: rgba(184,147,74,.06);
+    color: var(--cream);
+  }
+  .opt:hover::before { border-color: var(--gold); }
+  .opt.selected {
+    border-color: var(--gold);
+    background: rgba(184,147,74,.1);
+    color: var(--cream);
+  }
+  .opt.selected::before {
+    background: var(--gold);
+    border-color: var(--gold);
+    box-shadow: 0 0 0 3px rgba(184,147,74,.25);
+  }
+  .opt.selected::after {
+    content: '';
+    position: absolute; left: 20px; top: 50%;
+    transform: translateY(-50%);
+    width: 8px; height: 8px;
+    background: var(--navy);
+    border-radius: 50%;
+  }
+  .nav-row {
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .btn-ghost {
+    background: none;
+    border: 1px solid rgba(255,255,255,.15);
+    color: var(--muted);
+    font-family: var(--sans);
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    padding: 10px 22px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: border-color .15s, color .15s;
+  }
+  .btn-ghost:hover { border-color: rgba(255,255,255,.3); color: var(--cream2); }
+  .btn-ghost:disabled { opacity: .3; cursor: default; }
+  .btn-next {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: none;
+    border: 1px solid var(--gold);
+    color: var(--gold2);
+    font-family: var(--sans);
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    padding: 10px 24px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background .15s, color .15s;
+  }
+  .btn-next:hover { background: var(--gold); color: var(--navy); }
+  .btn-next:disabled { opacity: .3; cursor: default; border-color: rgba(255,255,255,.2); color: var(--muted); }
+  .btn-next:disabled:hover { background: none; color: var(--muted); }
+
+  /* ── RESULTS SCREEN ── */
+  .result-eyebrow {
+    font-size: 11px; font-weight: 600; letter-spacing: .18em;
+    text-transform: uppercase; color: var(--gold); margin-bottom: 1rem;
+  }
+  .phase-hero {
+    border-radius: 10px; overflow: hidden;
+    margin-bottom: 2rem;
+    border: 1px solid rgba(255,255,255,.08);
+  }
+  .phase-hero-band {
+    padding: 1.5rem 1.75rem;
+    display: flex; align-items: flex-start; gap: 16px;
+  }
+  .phase-number {
+    font-family: var(--serif);
+    font-size: 3.5rem;
+    font-weight: 500;
+    line-height: 1;
+    opacity: .25;
+    flex-shrink: 0;
+  }
+  .phase-hero-text {}
+  .phase-label-sm {
+    font-size: 11px; font-weight: 600; letter-spacing: .14em;
+    text-transform: uppercase; opacity: .7; margin-bottom: 5px;
+  }
+  .phase-name-lg {
+    font-family: var(--serif);
+    font-size: clamp(1.6rem, 4vw, 2.2rem);
+    font-weight: 500;
+    line-height: 1.2;
+    margin-bottom: 10px;
+  }
+  .phase-desc {
+    font-size: 16px; line-height: 1.7; opacity: .85;
+  }
+  .phase-tags {
+    display: flex; flex-wrap: wrap; gap: 6px;
+    padding: 1rem 1.75rem;
+    border-top: 1px solid rgba(255,255,255,.06);
+    background: rgba(0,0,0,.15);
+  }
+  .phase-tag {
+    font-size: 12px; padding: 4px 12px;
+    border-radius: 100px;
+    border: 1px solid currentColor;
+    opacity: .75;
+  }
+  .dim-section { margin-bottom: 2rem; }
+  .section-rule {
+    display: flex; align-items: center; gap: 12px; margin-bottom: 1.25rem;
+  }
+  .section-rule-label {
+    font-size: 11px; font-weight: 600; letter-spacing: .14em;
+    text-transform: uppercase; color: var(--muted); white-space: nowrap;
+  }
+  .section-rule-line {
+    flex: 1; height: 1px; background: rgba(255,255,255,.08);
+  }
+  .dim-grid {
+    display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;
+  }
+  .dim-card {
+    background: var(--navy2);
+    border: 1px solid rgba(255,255,255,.07);
+    border-radius: 8px; padding: 1rem 1.1rem;
+  }
+  .dim-card-lbl {
+    font-size: 11px; color: var(--muted); letter-spacing: .05em; margin-bottom: 6px;
+  }
+  .dim-card-val {
+    font-family: var(--serif);
+    font-size: 1.1rem; color: var(--cream); font-weight: 500; margin-bottom: 6px;
+  }
+  .dim-bar { height: 3px; background: rgba(255,255,255,.1); border-radius: 2px; overflow: hidden; }
+  .dim-bar-fill { height: 100%; border-radius: 2px; }
+  .warn-card {
+    background: rgba(184,147,74,.07);
+    border: 1px solid rgba(184,147,74,.25);
+    border-radius: 8px; padding: 1rem 1.25rem;
+    margin-bottom: 2rem;
+    font-size: 15px; color: var(--cream3); line-height: 1.7;
+  }
+  .warn-card strong { color: var(--gold2); font-weight: 600; }
+  .pastoral-section { margin-bottom: 2rem; }
+  .pastoral-item {
+    display: flex; gap: 12px; align-items: flex-start;
+    padding: .85rem 0;
+    border-bottom: 1px solid rgba(255,255,255,.05);
+    font-size: 16px; color: var(--cream2); line-height: 1.6;
+  }
+  .pastoral-item:last-child { border-bottom: none; }
+  .pastoral-num {
+    font-family: var(--serif);
+    font-size: 1.1rem; color: var(--gold); flex-shrink: 0; margin-top: 1px;
+    width: 24px;
+  }
+  .actions-row {
+    display: flex; gap: 12px; flex-wrap: wrap; margin-top: 2.5rem;
+    padding-top: 2rem; border-top: 1px solid rgba(255,255,255,.07);
+  }
+  .btn-outline {
+    background: none;
+    border: 1px solid rgba(255,255,255,.15);
+    color: var(--cream3);
+    font-family: var(--sans);
+    font-size: 14px; font-weight: 400;
+    letter-spacing: .06em; text-transform: uppercase;
+    padding: 10px 22px; border-radius: 4px;
+    cursor: pointer;
+    transition: border-color .15s, color .15s;
+  }
+  .btn-outline:hover { border-color: rgba(255,255,255,.3); color: var(--cream); }
+
+  /* ── PHASE COLORS ── */
+  .p1 { --pc: #888780; --pb: rgba(136,135,128,.12); }
+  .p2 { --pc: #B8860B; --pb: rgba(184,134,11,.12); }
+  .p3 { --pc: #2a7a50; --pb: rgba(42,122,80,.12); }
+  .p4 { --pc: #2a6090; --pb: rgba(42,96,144,.12); }
+  .p5 { --pc: #7a4ab0; --pb: rgba(122,74,176,.12); }
+
+  .phase-hero { background: var(--pb); border-color: color-mix(in srgb, var(--pc) 35%, transparent); }
+  .phase-hero-band { color: color-mix(in srgb, var(--pc) 80%, var(--cream)); }
+  .phase-number { color: var(--pc); opacity: .3; }
+  .phase-label-sm { color: var(--pc); }
+  .phase-name-lg { color: var(--cream); }
+  .phase-tag { color: var(--pc); border-color: color-mix(in srgb, var(--pc) 50%, transparent); }
+  .dim-bar-fill { background: var(--pc); }
+
+  .interpretive-guide {
+    border-top: 1px solid rgba(184,147,74,.2);
+    border-bottom: 1px solid rgba(184,147,74,.2);
+    padding: 1.75rem 0;
+    margin-bottom: 2rem;
+  }
+  .interpretive-guide-label {
+    font-size: 11px; font-weight: 600; letter-spacing: .14em;
+    text-transform: uppercase; color: var(--gold);
+    margin-bottom: 1.1rem;
+  }
+  .interpretive-guide p {
+    font-family: var(--serif);
+    font-size: 1.05rem;
+    color: var(--cream3);
+    line-height: 1.8;
+    font-style: italic;
+  }
+  .interpretive-guide p + p { margin-top: 1.1rem; }
+
+  @media print {
+    body { background: #fff; color: #1a1a1a; }
+    body::before { display: none; }
+    .btn-primary, .btn-ghost, .btn-next, .btn-outline, .actions-row { display: none; }
+    .phase-hero { background: #f5f5f0; border: 1px solid #ccc; }
+  } 
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 600px) {
+    #app { padding: 1.75rem 1.25rem 4rem; }
+    .meta-grid { grid-template-columns: repeat(3,1fr); }
+    .dim-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div id="app"></div>
+
+<script>
+const QS = [
+  {
+    section: "Section 1 — Relationship with God",
+    text: "When someone asks why you're Catholic or Christian, what is your most honest answer?",
+    guard: "Bias check: 'I was raised that way' and 'because I believe Jesus is Lord' are both valid — but they map to very different phases.",
+    opts: [
+      { t: "It's how I was raised — it's part of my family and identity", s:{thr:1,soil:1,ls:1,hap:1} },
+      { t: "I'm not sure I have a strong reason, but I haven't left", s:{thr:1,soil:1,ls:1,hap:1} },
+      { t: "I've started asking whether it's really true for me personally", s:{thr:2,soil:2,ls:2,hap:2} },
+      { t: "I've had a personal encounter with God that changed how I see everything", s:{thr:4,soil:3,ls:3,hap:3} },
+      { t: "Jesus Christ is Lord and I've given my life to Him — I'd say the same to anyone", s:{thr:5,soil:5,ls:4,hap:5} }
+    ]
+  },
+  {
+    section: "Section 1 — Relationship with God",
+    text: "Have you ever made a conscious, specific decision to follow Jesus Christ as Lord — not just to be a good Catholic or Christian?",
+    guard: "Bias check: baptism, confirmation, or being devout do not count unless accompanied by a personal act of surrender.",
+    opts: [
+      { t: "No — I've never thought about it that way", s:{thr:1,soil:1,ls:1,hap:1} },
+      { t: "I'm not sure what that would even mean or feel like", s:{thr:2,soil:2,ls:2,hap:2} },
+      { t: "I think so, but it was vague and I couldn't tell you when", s:{thr:3,soil:2,ls:2,hap:2} },
+      { t: "Yes — there was a specific moment or period when I consciously surrendered", s:{thr:5,soil:3,ls:3,hap:3} },
+      { t: "Yes — and I've renewed that commitment multiple times, especially after failure", s:{thr:5,soil:5,ls:4,hap:5} }
+    ]
+  },
+  {
+    section: "Section 1 — Relationship with God",
+    text: "Describe your prayer life in the last month. Which is most accurate?",
+    guard: "Bias check: occasional or obligatory prayer (before meals, at Mass) does not indicate an active prayer life.",
+    opts: [
+      { t: "I don't really pray outside of Mass or meals", s:{thr:1,soil:1,ls:1,hap:1} },
+      { t: "I pray sometimes, but inconsistently and mostly when things are hard", s:{thr:2,soil:2,ls:2,hap:2} },
+      { t: "I have a regular habit — a few times a week — though it's still developing", s:{thr:4,soil:3,ls:3,hap:3} },
+      { t: "I have a daily prayer practice and notice when I skip it", s:{thr:5,soil:4,ls:3,hap:3} },
+      { t: "Daily prayer is the anchor of my day — Scripture, silence, and real conversation with God", s:{thr:5,soil:5,ls:4,hap:5} }
+    ]
+  },
+  {
+    section: "Section 2 — Condition of the Heart",
+    text: "Think of a genuinely hard season in the last few years — a failure, loss, or prolonged suffering. What happened to your faith?",
+    guard: "Bias check: 'I got through it' is not evidence of deep soil. The question is whether faith deepened, held steady, or shrank under pressure.",
+    opts: [
+      { t: "I don't really connect my faith to my hard times", s:{thr:1,soil:1,ls:1,hap:1} },
+      { t: "My faith faded or felt distant — I pulled away from God or the Church", s:{thr:2,soil:2,ls:2,hap:1} },
+      { t: "I held on, but mostly out of habit or fear of losing my faith entirely", s:{thr:3,soil:2,ls:2,hap:2} },
+      { t: "My faith was tested and held — I came out with more trust, not less", s:{thr:5,soil:3,ls:3,hap:3} },
+      { t: "The hard season deepened my faith in ways nothing else could — I'm grateful for it", s:{thr:5,soil:5,ls:4,hap:5} }
+    ]
+  },
+  {
+    section: "Section 2 — Condition of the Heart",
+    text: "What most consistently competes with God for your time, attention, or loyalty?",
+    guard: "Bias check: every man has competing loves — this is not a shame question. The question is whether he sees them clearly and is doing something about them.",
+    opts: [
+      { t: "I don't think anything really competes — faith isn't that central to my decisions", s:{thr:1,soil:1,ls:1,hap:1} },
+      { t: "Work, sports, entertainment — I know they crowd out things that matter, but I'm not dealing with it", s:{thr:2,soil:2,ls:2,hap:2} },
+      { t: "Pornography, money anxiety, or alcohol — things I'm ashamed of but haven't conquered", s:{thr:3,soil:2,ls:2,hap:2} },
+      { t: "I see the thorns, I'm in a real fight against them, and I have accountability", s:{thr:5,soil:3,ls:3,hap:3} },
+      { t: "My biggest temptation now is subtle — pride, control, or self-reliance in ministry", s:{thr:5,soil:5,ls:4,hap:5} }
+    ]
+  },
+  {
+    section: "Section 2 — Condition of the Heart",
+    text: "Has living your faith cost you something real — a relationship, opportunity, comfort, or reputation?",
+    guard: "Bias check: being inconvenienced is not the same as paying a cost. Roots are proven by what a man holds when something presses against them.",
+    opts: [
+      { t: "No — my faith doesn't really create conflict with my life", s:{thr:1,soil:1,ls:1,hap:1} },
+      { t: "It's created tension but I haven't had to make a hard stand yet", s:{thr:2,soil:2,ls:2,hap:2} },
+      { t: "Yes — I've paid a cost and I'd do it again, though it was hard", s:{thr:5,soil:3,ls:3,hap:3} },
+      { t: "Yes — multiple times, including losing something I really valued", s:{thr:5,soil:5,ls:4,hap:5} }
+    ]
+  },
+  {
+    section: "Section 3 — Spiritual Lifestage",
+    text: "Who has most intentionally invested in your spiritual life — walked with you, challenged you, and called you forward?",
+    guard: "Bias check: a priest who gave a good homily or a parent who brought you to Mass is not the same as a man who personally discipled you.",
+    opts: [
+      { t: "No one — I've figured things out on my own or just absorbed them from culture", s:{thr:1,soil:1,ls:1,hap:1} },
+      { t: "Someone in my family or childhood faith, but no one since", s:{thr:2,soil:2,ls:2,hap:2} },
+      { t: "A man who has personally walked with me, challenged me, and is still in my life", s:{thr:4,soil:3,ls:3,hap:3} },
+      { t: "I've had multiple men speak into my life at different stages, and I've sought them out", s:{thr:5,soil:5,ls:4,hap:5} }
+    ]
+  },
+  {
+    section: "Section 3 — Spiritual Lifestage",
+    text: "Are you currently walking alongside a younger or less mature man in his faith — not just as a friend, but intentionally?",
+    guard: "Bias check: being in a men's group or occasionally encouraging someone is not the same as intentional spiritual fatherhood.",
+    opts: [
+      { t: "No — and I wouldn't know how", s:{thr:1,soil:1,ls:1,hap:1} },
+      { t: "Not currently, but I'd be open to it if the opportunity arose", s:{thr:3,soil:2,ls:2,hap:2} },
+      { t: "I'm building toward it — I'm not fully formed enough yet, but I'm growing", s:{thr:4,soil:3,ls:3,hap:3} },
+      { t: "Yes — I'm walking with at least one man intentionally, praying with him and challenging him", s:{thr:5,soil:4,ls:4,hap:4} },
+      { t: "Yes — and I'm also releasing men I've formed to disciple others themselves", s:{thr:6,soil:5,ls:5,hap:5} }
+    ]
+  },
+  {
+    section: "Section 3 — Spiritual Lifestage",
+    text: "Have you experienced a significant spiritual failure, dark night, or period when God felt absent — and what came of it?",
+    guard: "Bias check: early-stage men often have not yet experienced the testing that produces deep faith. This question can reveal either shallow roots or mature depth.",
+    opts: [
+      { t: "Not really — nothing I'd call a spiritual crisis", s:{thr:1,soil:1,ls:2,hap:1} },
+      { t: "Yes, and I walked away or went cold — I haven't fully recovered", s:{thr:2,soil:2,ls:1,hap:1} },
+      { t: "Yes, and I held on, but I'm still processing what it meant", s:{thr:4,soil:3,ls:3,hap:3} },
+      { t: "Yes, and it broke something in me that needed breaking — I'm more rooted now", s:{thr:5,soil:5,ls:4,hap:5} }
+    ]
+  },
+  {
+    section: "Section 4 — What Drives You",
+    text: "When you're honest, why do you practice your faith? What's the primary driver right now?",
+    guard: "Bias check: higher-sounding motives are easy to claim. Push for the honest answer — what actually gets him to pray or show up?",
+    opts: [
+      { t: "Habit, family expectation, or not wanting to feel like I've abandoned it", s:{thr:1,soil:1,ls:1,hap:1} },
+      { t: "Fear of consequences — hell, or letting my family down", s:{thr:2,soil:2,ls:2,hap:1} },
+      { t: "A growing sense that God is real and I want to know Him better", s:{thr:3,soil:3,ls:2,hap:2} },
+      { t: "Genuine love for God and gratitude for what He's done in my life", s:{thr:5,soil:3,ls:3,hap:3} },
+      { t: "Love for God and love for others — it's how I participate in something eternal", s:{thr:6,soil:5,ls:4,hap:5} }
+    ]
+  },
+  {
+    section: "Section 4 — What Drives You",
+    text: "What do you most want out of your life right now — if you're completely honest?",
+    guard: "Bias check: if his daily choices don't match his stated desire, score the choices, not the aspiration.",
+    opts: [
+      { t: "Comfort, pleasure, security, or a break from stress", s:{thr:1,soil:1,ls:1,hap:1} },
+      { t: "Success, respect, achievement, or to be seen as a man who made it", s:{thr:2,soil:2,ls:2,hap:2} },
+      { t: "To be a good husband, father, and man — to make a real difference for others", s:{thr:4,soil:3,ls:3,hap:3} },
+      { t: "To know God deeply and to give my life away in a way that lasts forever", s:{thr:5,soil:5,ls:4,hap:5} }
+    ]
+  },
+  {
+    section: "Section 4 — What Drives You",
+    text: "A man can attend Mass every Sunday and never have personally surrendered to Christ. Honestly — does that describe you, or might it?",
+    guard: "This question directly guards against the most common over-placement bias: confusing religious practice with interior conversion.",
+    opts: [
+      { t: "Yes — I practice but I've never personally committed my life to Christ", s:{thr:1,soil:2,ls:1,hap:1} },
+      { t: "Possibly — I'm not sure I've ever crossed that line personally", s:{thr:2,soil:2,ls:2,hap:2} },
+      { t: "I don't think so, but the question makes me want to examine it more honestly", s:{thr:3,soil:2,ls:2,hap:2} },
+      { t: "No — I have crossed that line, and it changed how and why I practice", s:{thr:5,soil:3,ls:3,hap:3} }
+    ]
+  }
+];
+
+const PHASES = [
+  {
+    id:1, cls:'p1',
+    label:"Phase 1",
+    name:"Pre-Evangelization",
+    desc:"Faith is cultural or inherited. No personal relationship with God. The Church may be tied to family identity, but not personal conviction.",
+    threshold:"Initial Trust (or below)",
+    soil:"Path / Hard Ground",
+    lifestage:"Wounded Boy or pre-seeker",
+    happiness:"Level 1–2 dominant",
+    warn:"Many practicing Catholics land here. Mass attendance and sacramental participation are not evidence against this placement.",
+    pastoral:[
+      "Create relational trust before any proclamation",
+      "Invite into shared life — service projects, outdoor events, shared meals",
+      "Name the ache of Level 1–2 disappointment without moralizing",
+      "Do not assume openness; build it patiently through trusted friendships"
+    ]
+  },
+  {
+    id:2, cls:'p2',
+    label:"Phase 2",
+    name:"Evangelization",
+    desc:"Something is stirring. Questions are forming. But faith is not yet personally owned — it may have faded under pressure, or competing loves dominate without a real fight.",
+    threshold:"Curiosity → Openness",
+    soil:"Rocky or Thorny Ground",
+    lifestage:"Questioning Seeker",
+    happiness:"Level 2–3 transition",
+    warn:"Rocky-ground enthusiasm can look like Phase 3 or 4. The diagnostic is durability under pressure — if faith shrank in hard times, this placement is right.",
+    pastoral:[
+      "Offer explicit kerygmatic proclamation — not programs, not moralism",
+      "Share personal male testimony: what Christ has actually done in a man's life",
+      "Invite to an Awakening retreat or similar encounter with the Gospel",
+      "Name the restlessness directly and point toward its true and infinite source"
+    ]
+  },
+  {
+    id:3, cls:'p3',
+    label:"Phase 3",
+    name:"Initial Conversion",
+    desc:"A real surrender has occurred or is occurring. The man is beginning to follow Christ deliberately. But roots are still shallow — formation structures are not yet consistently in place.",
+    threshold:"Spiritual Seeking → Intentional Discipleship",
+    soil:"Breaking up thorny ground",
+    lifestage:"Young Man (spiritual warrior), early",
+    happiness:"Level 3 awakening",
+    warn:"Conversion zeal can feel like formation depth — they are not the same. Without consistent prayer, Scripture, sacramental life, and accountability, this phase is correct.",
+    pastoral:[
+      "Explicitly invite a surrender decision if it has not been made clearly",
+      "Connect him to Confession as transformative encounter, not obligation",
+      "Embed him in a small group immediately — relationship is the vehicle",
+      "Assign a personal mentor, not a program"
+    ]
+  },
+  {
+    id:4, cls:'p4',
+    label:"Phase 4",
+    name:"Formation",
+    desc:"The man is an intentional disciple in active formation. Prayer, Scripture, sacraments, and community are present. Faith held under pressure. Still maturing — not yet consistently forming others.",
+    threshold:"Intentional Discipleship",
+    soil:"Good Soil being cultivated",
+    lifestage:"Young Man maturing",
+    happiness:"Level 3–4 integration",
+    warn:"Leadership roles and theological knowledge do not place a man here. The test is whether interior life and daily choices reflect genuine, ongoing formation.",
+    pastoral:[
+      "Deepen formation: spiritual direction, Liturgy of the Hours, lectio divina",
+      "Place in a weekly accountability small group led by a mature disciple",
+      "Begin preparing him for mission — he cannot be only a receiver much longer",
+      "Challenge the remaining thorns, especially the subtle ones: pride and control"
+    ]
+  },
+  {
+    id:5, cls:'p5',
+    label:"Phase 5",
+    name:"Mission & Fatherhood",
+    desc:"Spiritual fatherhood is operational. The man is forming others, not merely being formed. Apostolic mission — mentoring, leading, deploying — is his primary mode of engagement.",
+    threshold:"Apostolic Mission",
+    soil:"Good Soil bearing 100-fold",
+    lifestage:"King / Father / Elder",
+    happiness:"Level 4 pursued",
+    warn:"Very few men are genuinely here. If he cannot name specific men he is intentionally forming, he is in late Phase 4, not Phase 5.",
+    pastoral:[
+      "Commission and deploy into specific apostolates and mentoring relationships",
+      "Cultivate him as a blessing-giver and elder to younger men in the community",
+      "Honor his elder role explicitly — name it, celebrate it, protect it",
+      "Guard against complacency: the Mission phase requires ongoing renewal, not coasting"
+    ]
+  }
+];
+
+const DIMS = [
+  { key:'thr', label:'Threshold (Waddell)', labels:['Initial Trust','Curiosity','Openness / Seeking','Seeking → Discipleship','Intentional Disciple','Apostolic Mission'] },
+  { key:'soil', label:'Soil type (Parable)', labels:['Path / Hard Ground','Rocky Ground','Thorny Ground breaking','Rocky → Good Soil','Good Soil (cultivated)'] },
+  { key:'ls', label:'Lifestage', labels:['Wounded Boy','Seeker','Young Man (early)','Young Man (maturing)','Father / King / Elder'] },
+  { key:'hap', label:'Happiness level (Spitzer)', labels:['Level 1 dominant','Level 1–2','Level 2–3 transition','Level 3 awakening','Level 4 integration'] }
+];
+
+let cur = 0, answers = [], shuffles = [];
+
+function shuffle(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
+function avg(scores, key) {
+  let sum = 0;
+  scores.forEach(s => sum += s[key]);
+  return sum / scores.length;
+}
+
+function getPhase(answers) {
+  const scores = answers.map((dispIdx, qi) => {
+    const origIdx = shuffles[qi] ? shuffles[qi][dispIdx] : dispIdx;
+    return QS[qi].opts[origIdx].s;
+  });
+  const a = {
+    thr: avg(scores,'thr'),
+    soil: avg(scores,'soil'),
+    ls: avg(scores,'ls'),
+    hap: avg(scores,'hap')
+  };
+  const raw = (a.thr + a.soil + a.ls + a.hap) / 4;
+  const adj = Math.max(1, raw - 0.15);
+  const idx = Math.min(4, Math.max(0, Math.round(adj) - 1));
+  return { phase: PHASES[idx], avgs: a };
+}
+
+function dimLabel(d, v) {
+  const idx = Math.min(d.labels.length-1, Math.max(0, Math.round(v)-1));
+  return d.labels[idx];
+}
+
+function dimPct(v) {
+  return Math.round(((v-1)/4)*100);
+}
+
+/* ── RENDER ── */
+function renderIntro() {
+  document.getElementById('app').innerHTML = `
+    <div class="screen">
+      <div class="wordmark">
+        <div class="cross-icon"></div>
+        <div class="wordmark-text">Men's Ministry Assessment</div>
+      </div>
+      <div class="intro-eyebrow">Forming Intentional Disciples</div>
+      <h1 class="intro-title">Jesus asked them, <em>What do you seek?</em></h1>
+      <p class="intro-subtitle">
+        This assessment places a man within an Integrated Discileship Framework — five pastoral phases drawn from Waddell's thresholds, the Parable of the Sower, the spiritual lifestages of men, and Spitzer's four levels of happiness.  The intent is to engender honest reflection of your discipleship journey.
+      </p>
+      <div class="rule"></div>
+      <div class="framework-pills">
+        <span class="pill">Waddell's Thresholds</span>
+        <span class="pill">Parable of the Sower</span>
+        <span class="pill">Spiritual Lifestages</span>
+        <span class="pill">Spitzer's Happiness Levels</span>
+      </div>
+      <div class="bias-callout">
+        <strong>Built-in bias protection.</strong> Each question includes a "bias check" prompt that names the most common way men over-report their spiritual maturity. Scoring is intentionally conservative: when answers span two adjacent phases, placement defaults to the lower one. External behaviors — Mass attendance, parish roles, volunteering — do not advance the result.
+      </div>
+      <div class="meta-grid">
+        <div class="meta-item"><span class="meta-num">12</span><span class="meta-lbl">Questions</span></div>
+        <div class="meta-item"><span class="meta-num">4</span><span class="meta-lbl">Dimensions</span></div>
+        <div class="meta-item"><span class="meta-num">5</span><span class="meta-lbl">Phases</span></div>
+      </div>
+      <button class="btn-primary" onclick="startAssessment()">
+        Begin Assessment
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+      </button>
+    </div>`;
+}
+
+function renderQuestion() {
+  const q = QS[cur];
+  const pct = Math.round((cur / QS.length) * 100);
+  const sel = answers[cur];
+  const order = shuffles[cur] || [...Array(q.opts.length).keys()];
+  document.getElementById('app').innerHTML = `
+    <div class="screen">
+      <div class="wordmark">
+        <div class="cross-icon"></div>
+        <div class="wordmark-text">Men's Ministry Assessment</div>
+      </div>
+      <div class="q-header">
+        <span class="section-badge">${q.section}</span>
+        <span class="q-counter">${cur+1} / ${QS.length}</span>
+      </div>
+      <div class="progress-track">
+        <div class="progress-fill" style="width:${pct}%"></div>
+      </div>
+      <p class="q-text">${q.text}</p>
+      ${q.guard ? `<div class="q-guard"><svg class="guard-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="6"/><path d="M8 5v3"/><circle cx="8" cy="11" r=".5" fill="currentColor"/></svg>${q.guard}</div>` : ''}
+      <div class="opts">
+        ${order.map((origIdx, dispIdx) => `<div class="opt${sel===dispIdx?' selected':''}" onclick="selectOpt(${dispIdx})">${q.opts[origIdx].t}</div>`).join('')}
+      </div>
+      <div class="nav-row">
+        <button class="btn-ghost" onclick="goBack()" ${cur===0?'disabled':''}>← Back</button>
+        <button class="btn-next" id="nextBtn" onclick="goNext()" ${sel===undefined?'disabled':''}>
+          ${cur===QS.length-1 ? 'See Results' : 'Next'}
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+        </button>
+      </div>
+    </div>`;
+}
+
+function renderResult() {
+  const { phase: p, avgs } = getPhase(answers);
+  document.getElementById('app').innerHTML = `
+    <div class="screen">
+      <div class="wordmark">
+        <div class="cross-icon"></div>
+        <div class="wordmark-text">Assessment Result</div>
+      </div>
+      <div class="result-eyebrow">Integrated Framework Placement</div>
+      <div class="phase-hero ${p.cls}">
+        <div class="phase-hero-band">
+          <div class="phase-number">${p.id}</div>
+          <div class="phase-hero-text">
+            <div class="phase-label-sm">${p.label}</div>
+            <div class="phase-name-lg">${p.name}</div>
+            <div class="phase-desc">${p.desc}</div>
+          </div>
+        </div>
+        <div class="phase-tags">
+          <span class="phase-tag">${p.threshold}</span>
+          <span class="phase-tag">${p.soil}</span>
+          <span class="phase-tag">${p.lifestage}</span>
+          <span class="phase-tag">${p.happiness}</span>
+        </div>
+      </div>
+
+      <div class="dim-section">
+        <div class="section-rule">
+          <span class="section-rule-label">Dimension Breakdown</span>
+          <div class="section-rule-line"></div>
+        </div>
+        <div class="dim-grid">
+          ${DIMS.map(d => `
+            <div class="dim-card">
+              <div class="dim-card-lbl">${d.label}</div>
+              <div class="dim-card-val">${dimLabel(d, avgs[d.key])}</div>
+              <div class="dim-bar"><div class="dim-bar-fill ${p.cls}" style="width:${dimPct(avgs[d.key])}%"></div></div>
+            </div>`).join('')}
+        </div>
+      </div>
+
+      <div class="warn-card">
+        <strong>Bias check for this placement:</strong> ${p.warn}
+      </div>
+
+      <div class="pastoral-section">
+        <div class="section-rule">
+          <span class="section-rule-label">Pastoral Priorities</span>
+          <div class="section-rule-line"></div>
+        </div>
+        ${p.pastoral.map((s,i) => `
+          <div class="pastoral-item">
+            <span class="pastoral-num">${i+1}.</span>
+            <span>${s}</span>
+          </div>`).join('')}
+      </div>
+
+      <div class="interpretive-guide">
+        <div class="interpretive-guide-label">A Word for Your Journey</div>
+        <p>This assessment is not a verdict — it is an invitation. The framework behind it was built on a simple conviction: that God meets every man exactly where he is, and that knowing where you are is the first act of honesty that makes real growth possible. Whatever phase this result names, it describes a man whom God is already pursuing. The question it opens is not <em>how did I do</em> but <em>what is God asking of me from here?</em> Take the result to prayer. Sit with it, resist the urge to argue with it or immediately improve it, and ask the Lord honestly: <em>Is this true of me? What have I been settling for that You are calling me beyond?</em> The soil that needs the most work is always the soil closest to the surface — and the fact that you are asking the question at all is evidence that something in you is already responding to a grace you may not yet have named.</p>
+        <p>The Catholic Church exists precisely to accompany you through every phase of this journey — not as an institution demanding performance, but as a mother carrying the sacraments, the Scriptures, and the community of men who have walked this road before you. If the result points to an early phase, the most important next step is not a program but a person: find one man further along the journey than you are and ask him to walk with you. If it points to a later phase, the most important next step is the same — but now you are that man for someone else. The journey to Jesus Christ is never made alone, and the Church's deepest wisdom is that the path forward is always through relationship: with God in prayer, with Christ in the sacraments, and with brothers who will tell you the truth in love.</p>
+      </div>
+
+      <div class="actions-row">
+        <button class="btn-primary" onclick="restart()">
+          Assess another man
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+        </button>
+        <button class="btn-outline" onclick="window.print()">Print result</button>
+      </div>
+    </div>`;
+}
+
+/* ── ACTIONS ── */
+function startAssessment() { cur = 0; answers = []; shuffles = QS.map(q => shuffle([...Array(q.opts.length).keys()])); renderQuestion(); }
+function restart() { cur = 0; answers = []; shuffles = []; renderIntro(); }
+
+function selectOpt(i) {
+  answers[cur] = i;
+  renderQuestion();
+}
+
+function goNext() {
+  if (answers[cur] === undefined) return;
+  if (cur < QS.length - 1) { cur++; renderQuestion(); }
+  else { renderResult(); }
+}
+
+function goBack() {
+  if (cur > 0) { cur--; renderQuestion(); }
+  else { renderIntro(); }
+}
+
+/* ── INIT ── */
+renderIntro();
+</script>
+</body>
+</html>
