@@ -1,0 +1,1190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Companion Guide — Phases 1 & 2</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet">
+<style>
+
+/* ── RESET ─────────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* ── VARIABLES ──────────────────────────────────────────────────────────── */
+:root {
+  --ink:      #1a1610;
+  --ink2:     #2e2820;
+  --ink3:     #4a4238;
+  --parch:    #f5f0e4;
+  --parch2:   #ede6d0;
+  --parch3:   #e0d5b8;
+  --gold:     #8b6914;
+  --gold2:    #a07c22;
+  --gold3:    #c4a24e;
+  --gold-lt:  #e8d5a0;
+  --rust:     #7a3020;
+  --forest:   #1e3d28;
+  --navy:     #1a2840;
+  --sans:     'Crimson Pro', Georgia, serif;
+  --serif:    'Cormorant Garamond', 'Times New Roman', serif;
+  --fell:     'IM Fell English', Georgia, serif;
+}
+
+/* ── BASE ───────────────────────────────────────────────────────────────── */
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--parch);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 17px;
+  font-weight: 300;
+  line-height: 1.75;
+  min-height: 100vh;
+}
+
+/* ── PRINT STYLES ────────────────────────────────────────────────────────── */
+@media print {
+  body { font-size: 11pt; background: white; color: #111; }
+  .no-print { display: none !important; }
+  .page-break { page-break-before: always; }
+  .card, .q-card, .signal-block, .next-card { break-inside: avoid; }
+  a { color: inherit; text-decoration: none; }
+  .cover { page-break-after: always; }
+}
+
+/* ── PAPER TEXTURE ───────────────────────────────────────────────────────── */
+body::before {
+  content: '';
+  position: fixed; inset: 0; pointer-events: none; z-index: 0;
+  background-image:
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+}
+
+/* ── LAYOUT ──────────────────────────────────────────────────────────────── */
+#app {
+  position: relative; z-index: 1;
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 0 2rem 5rem;
+}
+
+/* ── COVER ───────────────────────────────────────────────────────────────── */
+.cover {
+  background: var(--navy);
+  margin: 0 -2rem;
+  padding: 4rem 3rem 3.5rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.cover::before {
+  content: '';
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 70% 50% at 10% 20%, rgba(139,105,20,0.18) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 70% at 90% 80%, rgba(26,40,64,0.9) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.cover-inner { position: relative; z-index: 1; }
+
+.cover-eyebrow {
+  font-family: var(--sans);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--gold3);
+  margin-bottom: 1.2rem;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.cover-eyebrow::after {
+  content: '';
+  flex: 1;
+  max-width: 60px;
+  height: 1px;
+  background: var(--gold3);
+  opacity: .5;
+}
+
+.cover-title {
+  font-family: var(--serif);
+  font-size: clamp(2.4rem, 6vw, 3.8rem);
+  font-weight: 300;
+  line-height: 1.1;
+  color: var(--parch);
+  margin-bottom: .6rem;
+}
+
+.cover-title em {
+  font-style: italic;
+  color: var(--gold3);
+}
+
+.cover-subtitle {
+  font-family: var(--sans);
+  font-size: 15px;
+  font-weight: 300;
+  color: rgba(240,233,210,0.65);
+  margin-bottom: 2.5rem;
+  max-width: 520px;
+  line-height: 1.7;
+}
+
+.cover-tags {
+  display: flex; flex-wrap: wrap; gap: 8px;
+  margin-bottom: 2.5rem;
+}
+
+.cover-tag {
+  font-size: 11px;
+  letter-spacing: .07em;
+  font-weight: 400;
+  padding: 4px 14px;
+  border: 1px solid rgba(196,162,78,.4);
+  border-radius: 100px;
+  color: var(--gold-lt);
+}
+
+.cover-rule {
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, var(--gold) 0%, transparent 70%);
+  opacity: .4;
+  margin-bottom: 2rem;
+}
+
+.cover-meta {
+  display: grid;
+  grid-template-columns: repeat(3, auto);
+  gap: 0;
+  width: fit-content;
+}
+
+.cover-meta-item {
+  padding: .5rem 1.5rem .5rem 0;
+  border-right: 1px solid rgba(255,255,255,.1);
+  margin-right: 1.5rem;
+}
+.cover-meta-item:last-child { border-right: none; }
+
+.cover-meta-num {
+  font-family: var(--serif);
+  font-size: 1.8rem;
+  font-weight: 300;
+  color: var(--gold3);
+  display: block;
+  line-height: 1;
+}
+.cover-meta-lbl {
+  font-size: 11px;
+  color: rgba(240,233,210,.5);
+  letter-spacing: .04em;
+}
+
+/* ── COMPANION NOTICE ────────────────────────────────────────────────────── */
+.companion-notice {
+  background: var(--ink);
+  color: var(--parch);
+  margin: 0 -2rem;
+  padding: 1.2rem 3rem;
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: .04em;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.companion-notice-icon {
+  font-size: 18px;
+  flex-shrink: 0;
+  opacity: .8;
+}
+
+/* ── SECTION HEADERS ─────────────────────────────────────────────────────── */
+.section-header {
+  margin-top: 3rem;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: flex-end;
+  gap: 16px;
+}
+
+.section-number {
+  font-family: var(--serif);
+  font-size: 4rem;
+  font-weight: 300;
+  line-height: 1;
+  color: var(--parch3);
+  flex-shrink: 0;
+  opacity: .6;
+}
+
+.section-title-block {}
+
+.section-eyebrow {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--gold);
+  display: block;
+  margin-bottom: 2px;
+}
+
+.section-title {
+  font-family: var(--serif);
+  font-size: 1.9rem;
+  font-weight: 500;
+  color: var(--ink);
+  line-height: 1.15;
+}
+
+.section-rule {
+  height: 1px;
+  background: linear-gradient(90deg, var(--gold3) 0%, var(--parch3) 100%);
+  margin-bottom: 1.5rem;
+  opacity: .6;
+}
+
+/* ── CARDS ───────────────────────────────────────────────────────────────── */
+.card {
+  background: white;
+  border: 1px solid var(--parch3);
+  border-radius: 3px;
+  padding: 1.5rem 1.75rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 1px 4px rgba(26,22,16,.06);
+}
+
+.card-title {
+  font-family: var(--serif);
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--navy);
+  margin-bottom: .5rem;
+}
+
+.card p {
+  font-size: 16px;
+  color: var(--ink3);
+  line-height: 1.75;
+}
+
+.card p + p { margin-top: .75rem; }
+
+/* ── PHASE PILLS ─────────────────────────────────────────────────────────── */
+.phase-strip {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin: 1.5rem 0;
+}
+
+.phase-pill {
+  border-radius: 3px;
+  padding: 1.25rem 1.5rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.phase-pill::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 4px; height: 100%;
+}
+
+.phase-pill.p1 { background: rgba(122,48,32,.07); border: 1px solid rgba(122,48,32,.2); }
+.phase-pill.p1::before { background: var(--rust); }
+
+.phase-pill.p2 { background: rgba(139,105,20,.07); border: 1px solid rgba(139,105,20,.25); }
+.phase-pill.p2::before { background: var(--gold); }
+
+.phase-num {
+  font-family: var(--serif);
+  font-size: .8rem;
+  font-weight: 600;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+.p1 .phase-num { color: var(--rust); }
+.p2 .phase-num { color: var(--gold); }
+
+.phase-name {
+  font-family: var(--serif);
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: .4rem;
+}
+
+.phase-desc {
+  font-size: 14px;
+  color: var(--ink3);
+  line-height: 1.6;
+}
+
+/* ── SIGNALS ─────────────────────────────────────────────────────────────── */
+.signal-block {
+  border-radius: 3px;
+  padding: 1.1rem 1.4rem;
+  margin-bottom: .6rem;
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+}
+
+.signal-block.p1 { background: rgba(122,48,32,.05); border-left: 3px solid var(--rust); }
+.signal-block.p2 { background: rgba(139,105,20,.05); border-left: 3px solid var(--gold); }
+
+.signal-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  margin-top: .55rem;
+}
+.p1 .signal-dot { background: var(--rust); }
+.p2 .signal-dot { background: var(--gold2); }
+
+.signal-text {
+  font-size: 15px;
+  color: var(--ink2);
+  line-height: 1.65;
+}
+
+/* ── QUESTION CARDS ──────────────────────────────────────────────────────── */
+.q-card {
+  background: white;
+  border: 1px solid var(--parch3);
+  border-radius: 3px;
+  margin-bottom: 1.5rem;
+  overflow: hidden;
+  box-shadow: 0 1px 6px rgba(26,22,16,.07);
+}
+
+.q-header {
+  background: var(--navy);
+  padding: 1rem 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.q-num {
+  font-family: var(--serif);
+  font-size: 2rem;
+  font-weight: 300;
+  color: rgba(240,233,210,.35);
+  line-height: 1;
+  flex-shrink: 0;
+  min-width: 2rem;
+}
+
+.q-topic {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--gold3);
+  display: block;
+  margin-bottom: 2px;
+}
+
+.q-ask {
+  font-family: var(--serif);
+  font-size: 1.2rem;
+  font-weight: 400;
+  color: var(--parch);
+  line-height: 1.35;
+  font-style: italic;
+}
+
+.q-body {
+  padding: 1.25rem 1.5rem;
+}
+
+.q-intent {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--ink3);
+  margin-bottom: .75rem;
+}
+
+.q-reads {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: .75rem;
+  margin-bottom: 1rem;
+}
+
+@media (max-width: 560px) { .q-reads { grid-template-columns: 1fr; } }
+
+.q-read {
+  border-radius: 3px;
+  padding: .9rem 1.1rem;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.q-read.p1 {
+  background: rgba(122,48,32,.05);
+  border: 1px solid rgba(122,48,32,.15);
+}
+
+.q-read.p2 {
+  background: rgba(139,105,20,.05);
+  border: 1px solid rgba(139,105,20,.2);
+}
+
+.q-read-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  display: block;
+  margin-bottom: 4px;
+}
+.p1 .q-read-label { color: var(--rust); }
+.p2 .q-read-label { color: var(--gold); }
+
+.q-read-text {
+  color: var(--ink2);
+}
+
+.q-followup {
+  background: rgba(26,40,64,.04);
+  border-radius: 3px;
+  border: 1px solid rgba(26,40,64,.1);
+  padding: .85rem 1.1rem;
+  font-size: 14px;
+  color: var(--navy);
+  line-height: 1.65;
+}
+
+.q-followup::before {
+  content: '↩ Follow-up: ';
+  font-weight: 700;
+  font-size: 11px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+
+.q-guard {
+  margin-top: .75rem;
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  background: rgba(139,105,20,.06);
+  border-radius: 3px;
+  padding: .7rem 1rem;
+  font-size: 13.5px;
+  color: var(--ink3);
+  line-height: 1.65;
+  font-style: italic;
+}
+
+.q-guard::before {
+  content: '⚠';
+  flex-shrink: 0;
+  font-style: normal;
+  font-size: 14px;
+  margin-top: 1px;
+}
+
+/* ── LISTEN TABLE ────────────────────────────────────────────────────────── */
+.listen-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  margin-bottom: 1rem;
+  background: white;
+  border: 1px solid var(--parch3);
+  box-shadow: 0 1px 4px rgba(26,22,16,.06);
+}
+
+.listen-table thead tr {
+  background: var(--ink);
+}
+
+.listen-table thead th {
+  padding: .75rem 1rem;
+  text-align: left;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--parch3);
+}
+
+.listen-table td {
+  padding: .75rem 1rem;
+  border-bottom: 1px solid var(--parch2);
+  color: var(--ink2);
+  vertical-align: top;
+  line-height: 1.6;
+}
+
+.listen-table tr:last-child td { border-bottom: none; }
+.listen-table tr:nth-child(even) td { background: rgba(240,233,210,.35); }
+
+.badge {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  padding: 2px 8px;
+  border-radius: 100px;
+}
+.badge.p1 { background: rgba(122,48,32,.12); color: var(--rust); }
+.badge.p2 { background: rgba(139,105,20,.12); color: var(--gold); }
+
+/* ── NEXT STEPS CARDS ────────────────────────────────────────────────────── */
+.next-cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+@media (max-width: 580px) { .next-cards { grid-template-columns: 1fr; } }
+
+.next-card {
+  border-radius: 3px;
+  overflow: hidden;
+  border: 1px solid;
+}
+
+.next-card.p1 { border-color: rgba(122,48,32,.25); }
+.next-card.p2 { border-color: rgba(139,105,20,.3); }
+
+.next-card-header {
+  padding: .9rem 1.2rem;
+  font-family: var(--serif);
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.next-card.p1 .next-card-header { background: rgba(122,48,32,.08); color: var(--rust); }
+.next-card.p2 .next-card-header { background: rgba(139,105,20,.08); color: var(--gold); }
+
+.next-card-body {
+  padding: 1rem 1.2rem;
+  background: white;
+}
+
+.next-card-body li {
+  font-size: 14px;
+  color: var(--ink2);
+  line-height: 1.65;
+  margin-bottom: .35rem;
+  padding-left: .75rem;
+  position: relative;
+}
+
+.next-card-body li::before {
+  content: '→';
+  position: absolute;
+  left: 0;
+  font-size: 12px;
+  color: var(--ink3);
+  opacity: .6;
+}
+
+/* ── THE GOLDEN RULE BLOCK ───────────────────────────────────────────────── */
+.golden-rule {
+  background: var(--navy);
+  color: var(--parch);
+  border-radius: 3px;
+  padding: 2rem 2rem 2rem 2.5rem;
+  margin: 2rem 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.golden-rule::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 5px; height: 100%;
+  background: var(--gold3);
+}
+
+.golden-rule-label {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--gold3);
+  margin-bottom: .75rem;
+  display: block;
+}
+
+.golden-rule-text {
+  font-family: var(--serif);
+  font-size: 1.2rem;
+  font-weight: 300;
+  font-style: italic;
+  line-height: 1.65;
+  color: var(--parch);
+}
+
+/* ── CLOSING QUOTE ───────────────────────────────────────────────────────── */
+.closing {
+  text-align: center;
+  padding: 3rem 1rem;
+  border-top: 1px solid var(--parch3);
+  margin-top: 3rem;
+}
+
+.closing-text {
+  font-family: var(--fell);
+  font-size: 1.4rem;
+  font-style: italic;
+  color: var(--ink2);
+  line-height: 1.6;
+  max-width: 520px;
+  margin: 0 auto .75rem;
+}
+
+.closing-source {
+  font-size: 13px;
+  color: var(--gold);
+  letter-spacing: .08em;
+}
+
+/* ── NOTES AREA ──────────────────────────────────────────────────────────── */
+.notes-area {
+  background: white;
+  border: 1px solid var(--parch3);
+  border-radius: 3px;
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.notes-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: .75rem;
+  display: block;
+}
+
+.notes-lines {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.notes-line {
+  height: 1px;
+  background: var(--parch3);
+}
+
+/* ── UTIL ────────────────────────────────────────────────────────────────── */
+.mt1 { margin-top: 1rem; }
+.mt2 { margin-top: 2rem; }
+.mb1 { margin-bottom: 1rem; }
+.mb2 { margin-bottom: 2rem; }
+.text-sm { font-size: 14px; color: var(--ink3); line-height: 1.7; }
+strong { font-weight: 600; color: var(--ink); }
+em { color: var(--gold); }
+
+</style>
+</head>
+<body>
+<div id="app">
+
+  <!-- ── COVER ──────────────────────────────────────────────────────────── -->
+  <div class="cover">
+    <div class="cover-inner">
+      <div class="cover-eyebrow">Our Lady of Grace · Men's Ministry</div>
+      <h1 class="cover-title">The<br><em>Companion</em><br>Guide</h1>
+      <p class="cover-subtitle">A facilitated conversation for accompanying men in Phases 1 and 2 of the discipleship journey — before self-assessment is possible.</p>
+      <div class="cover-tags">
+        <span class="cover-tag">Phase 1 · Pre-Evangelization</span>
+        <span class="cover-tag">Phase 2 · Evangelization</span>
+        <span class="cover-tag">Companion-Facilitated</span>
+        <span class="cover-tag">6 Conversations</span>
+      </div>
+      <div class="cover-rule"></div>
+      <div class="cover-meta">
+        <div class="cover-meta-item">
+          <span class="cover-meta-num">6</span>
+          <span class="cover-meta-lbl">conversation questions</span>
+        </div>
+        <div class="cover-meta-item">
+          <span class="cover-meta-num">45</span>
+          <span class="cover-meta-lbl">minutes, one coffee</span>
+        </div>
+        <div class="cover-meta-item">
+          <span class="cover-meta-num">2</span>
+          <span class="cover-meta-lbl">phases identified</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── COMPANION NOTICE ────────────────────────────────────────────────── -->
+  <div class="companion-notice">
+    <span class="companion-notice-icon">🔒</span>
+    <span><strong>For the companion only.</strong> This guide is not shown to the man being accompanied. You hold it. He talks. Your job is to listen, not to teach.</span>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════════════ -->
+  <!-- SECTION 1: BEFORE YOU MEET                                         -->
+  <!-- ═══════════════════════════════════════════════════════════════════ -->
+  <div class="section-header">
+    <div class="section-number">1</div>
+    <div class="section-title-block">
+      <span class="section-eyebrow">Preparation</span>
+      <div class="section-title">Before You Meet</div>
+    </div>
+  </div>
+  <div class="section-rule"></div>
+
+  <div class="card">
+    <div class="card-title">What this guide is for</div>
+    <p>The standard discipleship assessment presupposes a man who already believes that spiritual self-examination is worthwhile. Most men in Phases 1 and 2 do not yet believe this. They will not voluntarily navigate to an online assessment, read questions about surrendering to Christ, and score themselves on a spiritual framework they don't yet inhabit.</p>
+    <p>This guide exists to close that gap. It gives you — a formed companion who already has a relationship with this man — the questions, the reading keys, and the pastoral next steps to understand where he is and how to walk with him. The conversation looks like two men talking over coffee. The companion knows what is being listened for. The man being accompanied simply talks about his life.</p>
+  </div>
+
+  <div class="card mt1">
+    <div class="card-title">The three rules of the companion conversation</div>
+    <p><strong>1. You are not teaching him.</strong> Not yet. This conversation has one purpose: to hear where he actually is. Resist every impulse to instruct, correct, or share your own faith story during the questions. There will be a time for that. It is not now.</p>
+    <p><strong>2. You score his choices, not his aspirations.</strong> Many men know what the right answer sounds like and will give it instinctively. Listen for the gap between what he says he values and how he actually describes his week, his decisions, and his hard seasons. The choices are the data. The aspirations are the mask.</p>
+    <p><strong>3. You are not assigning a grade.</strong> Phase placement is not a judgment. It is a pastoral position — the place from which you know what he needs next. Never share your placement conclusion with him directly. Act on it quietly through the relationship.</p>
+  </div>
+
+  <div class="golden-rule">
+    <span class="golden-rule-label">The Foundational Rule</span>
+    <p class="golden-rule-text">"A program cannot see where a man actually is. A companion can. This conversation is the irreplaceable act of seeing — carried out through attentive friendship, not clinical assessment."</p>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════════════ -->
+  <!-- SECTION 2: THE TWO PHASES                                          -->
+  <!-- ═══════════════════════════════════════════════════════════════════ -->
+  <div class="section-header">
+    <div class="section-number">2</div>
+    <div class="section-title-block">
+      <span class="section-eyebrow">Orientation</span>
+      <div class="section-title">The Two Phases You Are Reading</div>
+    </div>
+  </div>
+  <div class="section-rule"></div>
+
+  <p class="text-sm mb2">Every man you accompany in this way will fall into one of two phases. Know them before you sit down. The distinction is interior, not behavioral — a man can attend Mass every Sunday and be firmly in Phase 1.</p>
+
+  <div class="phase-strip">
+    <div class="phase-pill p1">
+      <div class="phase-num">Phase 1</div>
+      <div class="phase-name">Pre-Evangelization</div>
+      <p class="phase-desc">Faith is cultural or inherited. God is not personally real. The Church is associated with family, obligation, or identity — not conviction. No spiritual hunger is consciously felt, though it may be dimly present beneath the surface as a vague disappointment.</p>
+    </div>
+    <div class="phase-pill p2">
+      <div class="phase-num">Phase 2</div>
+      <div class="phase-name">Evangelization</div>
+      <p class="phase-desc">Something is stirring. A question has formed, even if unnamed. A life event — loss, failure, a child's birth, a hollow achievement — has cracked open the surface. The man may be pulling away from faith or tentatively turning toward it. Either way, the ache is active.</p>
+    </div>
+  </div>
+
+  <p class="text-sm mb1"><strong>The signal that distinguishes them is not practice — it is movement.</strong> A Phase 1 man is settled in his current life. A Phase 2 man is unsettled, even if he can't say why. Listen for restlessness.</p>
+
+  <div class="card mt1">
+    <div class="card-title">What you are listening for: the four axes</div>
+    <p>Each question touches one or more of the four framework dimensions. You don't need to score them formally — just hold these in mind as you listen.</p>
+    <table class="listen-table" style="margin-top:1rem">
+      <thead>
+        <tr>
+          <th>Dimension</th>
+          <th>Phase 1 sounds like…</th>
+          <th>Phase 2 sounds like…</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Threshold<br>(Waddell)</strong></td>
+          <td>No hostility, but no personal God. Faith is a cultural given, unexamined.</td>
+          <td>Curiosity or openness. A specific question that has formed, even if private.</td>
+        </tr>
+        <tr>
+          <td><strong>Soil<br>(Parable)</strong></td>
+          <td>Hard ground — the Word bounces off because there is no question it could answer.</td>
+          <td>Rocky or thorny — the Word might land, but roots are thin or competing loves crowd it out.</td>
+        </tr>
+        <tr>
+          <td><strong>Lifestage</strong></td>
+          <td>Wounded Boy — reacting to wounds, passive, no mature masculine identity to anchor in.</td>
+          <td>Questioning Seeker — the wound has cracked open enough to ask what a real man looks like.</td>
+        </tr>
+        <tr>
+          <td><strong>Happiness<br>(Spitzer)</strong></td>
+          <td>Level 1–2 dominant. Comfort, achievement, and status are the organizing principles. Content or numbed.</td>
+          <td>Level 2 ceiling being felt as ache. Achievement has delivered less than promised. Hunger is forming.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════════════ -->
+  <!-- SECTION 3: THE SIX QUESTIONS                                       -->
+  <!-- ═══════════════════════════════════════════════════════════════════ -->
+  <div class="section-header" style="margin-top:3.5rem">
+    <div class="section-number">3</div>
+    <div class="section-title-block">
+      <span class="section-eyebrow">The Conversation</span>
+      <div class="section-title">Six Questions for the Companion</div>
+    </div>
+  </div>
+  <div class="section-rule"></div>
+
+  <p class="text-sm mb2">Ask these in order. They move from the concrete and safe (life, work, family) toward the interior (desire, faith, suffering). The sequence matters — don't jump to the God questions before trust has been built through the earlier ones. You have 45 minutes. Move slowly. Silence after an answer is not a problem to fill.</p>
+
+  <!-- Q1 -->
+  <div class="q-card">
+    <div class="q-header">
+      <div class="q-num">1</div>
+      <div>
+        <span class="q-topic">Life & What Drives It · Spitzer Level</span>
+        <div class="q-ask">"What does a really good week look like for you right now? What would have to happen for you to drive home on Friday feeling like it was a good one?"</div>
+      </div>
+    </div>
+    <div class="q-body">
+      <div class="q-intent">What you're listening for</div>
+      <p class="text-sm" style="margin-bottom:.85rem">This opens with his actual life, not his religious life. It reveals his operating happiness level more reliably than any direct question about values. What a man considers a good week is what actually organizes his energy.</p>
+      <div class="q-reads">
+        <div class="q-read p1">
+          <span class="q-read-label">Phase 1 signals</span>
+          <span class="q-read-text">Answers cluster around comfort, productivity, achievement, or relief from stress. Good week = got a lot done, avoided conflict, had a beer on the patio. No relational or transcendent dimension mentioned naturally.</span>
+        </div>
+        <div class="q-read p2">
+          <span class="q-read-label">Phase 2 signals</span>
+          <span class="q-read-text">Answers gesture toward something that feels meaningful — a moment with a kid, a conversation that mattered, something he built or fixed that helped someone. Achievement still matters, but there's a hunger for it to mean something beyond the score.</span>
+        </div>
+      </div>
+      <div class="q-followup">If he gives a quick or surface answer, try: "What about a really bad week — what makes it feel empty, not just hard?"</div>
+      <div class="q-guard">Beware the man who lists accomplishments with no sense of satisfaction. The man who is achieving everything and feeling nothing is often closer to Phase 2 than his surface confidence suggests — the ache is present but unrecognized.</div>
+    </div>
+  </div>
+
+  <!-- Q2 -->
+  <div class="q-card">
+    <div class="q-header">
+      <div class="q-num">2</div>
+      <div>
+        <span class="q-topic">Faith Background · Threshold / Waddell</span>
+        <div class="q-ask">"How did faith show up for you growing up? And where would you say it fits in your life right now — honestly?"</div>
+      </div>
+    </div>
+    <div class="q-body">
+      <div class="q-intent">What you're listening for</div>
+      <p class="text-sm" style="margin-bottom:.85rem">This question is deliberately open and invites narrative rather than theological statement. You're not asking what he believes — you're asking what his lived experience of faith has actually been. The word "honestly" is important: it gives him permission to say something other than the expected Catholic answer.</p>
+      <div class="q-reads">
+        <div class="q-read p1">
+          <span class="q-read-label">Phase 1 signals</span>
+          <span class="q-read-text">Faith described as something that happened to him — family, school, cultural identity. Present-tense description: "I still go to Mass" or "I haven't really thought about it much." No sense of personal agency or searching in the story. Faith is a background condition, not a living thing.</span>
+        </div>
+        <div class="q-read p2">
+          <span class="q-read-label">Phase 2 signals</span>
+          <span class="q-read-text">A shift in the narrative — something changed, faded, or is returning. "I went through a phase where I stepped away." "I've been thinking about it more lately." "I'm not sure I believe what I was taught." Any past or present movement in relation to faith, even away from it, suggests Phase 2.</span>
+        </div>
+      </div>
+      <div class="q-followup">If he gives a purely historical answer and stops: "Is it something you think about now, or does it pretty much stay in the background?"</div>
+      <div class="q-guard">Active hostility toward the Church is Phase 1, not Phase 2. It looks like engagement but it's armor. Phase 2 is characterized by openness — even if tentative — not by anger. A man who immediately launches into criticisms of the Church is protecting himself from a question he's afraid to ask honestly.</div>
+    </div>
+  </div>
+
+  <!-- Q3 -->
+  <div class="q-card">
+    <div class="q-header">
+      <div class="q-num">3</div>
+      <div>
+        <span class="q-topic">Hard Seasons · Soil Type / Parable</span>
+        <div class="q-ask">"Has there been a season in your life that really tested you — something that knocked you sideways? What got you through it?"</div>
+      </div>
+    </div>
+    <div class="q-body">
+      <div class="q-intent">What you're listening for</div>
+      <p class="text-sm" style="margin-bottom:.85rem">Suffering is the most reliable diagnostic of soil depth. How a man has responded to the hardest seasons of his life reveals whether there is root below the surface — and whether faith played any role in what held him up. Listen not just to what happened, but to what he reached for.</p>
+      <div class="q-reads">
+        <div class="q-read p1">
+          <span class="q-read-label">Phase 1 signals</span>
+          <span class="q-read-text">Hard season navigated through self-sufficiency, distraction, or time. "I just pushed through it." "Work kept me sane." Faith not mentioned, or mentioned as a formality. The crisis produced no interior movement — he came out the other side essentially unchanged in how he sees life.</span>
+        </div>
+        <div class="q-read p2">
+          <span class="q-read-label">Phase 2 signals</span>
+          <span class="q-read-text">The hard season produced a question that is still open. "I found myself praying in a way I hadn't since I was a kid." "I started wondering if there was something more to it." Or conversely: "I walked away from church after that and haven't really gone back." Movement in either direction indicates a crack in the surface.</span>
+        </div>
+      </div>
+      <div class="q-followup">If he describes the hard season but doesn't mention faith at all, ask: "Did faith come into it at all — or was it more about other things?"</div>
+      <div class="q-guard">A man who says "my faith got me through it" is not automatically Phase 4. Many men have a functional, transactional faith — God as crisis-resource — without any personal relationship. Listen for whether God is a Person he turned toward, or a concept he invoked. The difference is everything.</div>
+    </div>
+  </div>
+
+  <!-- Q4 -->
+  <div class="q-card">
+    <div class="q-header">
+      <div class="q-num">4</div>
+      <div>
+        <span class="q-topic">Men Who Shaped Him · Lifestage</span>
+        <div class="q-ask">"Is there a man in your life — growing up or now — who showed you what a real man looks like? Someone who gave you something you still carry?"</div>
+      </div>
+    </div>
+    <div class="q-body">
+      <div class="q-intent">What you're listening for</div>
+      <p class="text-sm" style="margin-bottom:.85rem">This question goes to the heart of masculine lifestage. The Wounded Boy is defined partly by the absence of this — no man gave him what he needed, or the man who should have failed him. The Seeker is beginning to look for it. Hearing how a man answers this tells you where he is in the masculine development arc, independent of his spiritual vocabulary.</p>
+      <div class="q-reads">
+        <div class="q-read p1">
+          <span class="q-read-label">Phase 1 signals</span>
+          <span class="q-read-text">"Not really, I figured things out on my own." Or he names a figure from sports, business, or media — someone he observed at a distance, not someone who personally invested in him. No living mentor in his present life. Independent self-image: "I don't really need that kind of thing."</span>
+        </div>
+        <div class="q-read p2">
+          <span class="q-read-label">Phase 2 signals</span>
+          <span class="q-read-text">He can name someone, but the relationship was incomplete or ended — a father who was present but emotionally distant, a coach who made a brief but lasting impression, a grandfather he lost. He knows what he received was real, and he knows something is still missing. Often spoken with unexpected feeling.</span>
+        </div>
+      </div>
+      <div class="q-followup">If he names someone warmly, ask: "What was it about him that stayed with you?"<br>If he draws a blank, ask: "Is that something you think about — finding that kind of relationship now?"</div>
+      <div class="q-guard">This question often produces the most honest response of the conversation because it connects to wounds most men have never named directly. If emotion surfaces — even briefly — receive it simply and don't rush past it. The feeling is the data. Slow down here.</div>
+    </div>
+  </div>
+
+  <!-- Q5 -->
+  <div class="q-card">
+    <div class="q-header">
+      <div class="q-num">5</div>
+      <div>
+        <span class="q-topic">Satisfaction & the Ache · Spitzer Levels 1–3</span>
+        <div class="q-ask">"When you look at what you've built — your work, your family, your life — is it what you thought it would be? Does it feel like enough?"</div>
+      </div>
+    </div>
+    <div class="q-body">
+      <div class="q-intent">What you're listening for</div>
+      <p class="text-sm" style="margin-bottom:.85rem">This is the Spitzer question in plain language. Every man at Level 1–2 has some answer to this, even if he has never articulated it. The man who says "yes, it's enough" without hesitation is deeply settled in Level 1–2. The man who pauses — who notes a gap between what he expected and what he feels — is at the edge of Phase 2. The man who says "no, but I don't know what would be" has already crossed over.</p>
+      <div class="q-reads">
+        <div class="q-read p1">
+          <span class="q-read-label">Phase 1 signals</span>
+          <span class="q-read-text">"Yeah, I've done okay. Can't complain." Contentment described in terms of achievement, stability, or comparison to others ("better off than most people I know"). No ache acknowledged. The question produces no discomfort.</span>
+        </div>
+        <div class="q-read p2">
+          <span class="q-read-label">Phase 2 signals</span>
+          <span class="q-read-text">A pause before answering. "Most of the time, yeah, but..." The word "but" is the hinge. Any acknowledgment that the achieved life has delivered less than expected — in feeling, in meaning, in satisfaction — places him in Phase 2 regardless of how quickly he recovers to a positive answer.</span>
+        </div>
+      </div>
+      <div class="q-followup">If he says "yes" too quickly: "Is there anything you thought would feel different by now than it does?"</div>
+      <div class="q-guard">This is the question most likely to produce the pastoral opening Spitzer describes: the man who has achieved Level 2 goals and found the ceiling. Do not rush to offer Jesus as the answer. Not yet. Simply receive the ache, name it gently if he can't, and let it breathe. The most important thing you can do in this moment is make the ache feel safe to acknowledge.</div>
+    </div>
+  </div>
+
+  <!-- Q6 -->
+  <div class="q-card">
+    <div class="q-header">
+      <div class="q-num">6</div>
+      <div>
+        <span class="q-topic">God & the Question · Threshold / Waddell</span>
+        <div class="q-ask">"Do you think about God? Not what you were taught — your actual, honest take. Does God feel real to you, or more like something you hold at arm's length?"</div>
+      </div>
+    </div>
+    <div class="q-body">
+      <div class="q-intent">What you're listening for</div>
+      <p class="text-sm" style="margin-bottom:.85rem">This is the only question that directly addresses the God-relationship, and it is asked last, after trust has been built across five other questions. The phrase "not what you were taught" is doing crucial work: it explicitly releases him from the expected Catholic answer and invites genuine honesty. Many men have never been asked this question by another man in a context where honesty felt safe.</p>
+      <div class="q-reads">
+        <div class="q-read p1">
+          <span class="q-read-label">Phase 1 signals</span>
+          <span class="q-read-text">"Honestly, not much." "I believe in God in a general sense, I guess." Faith described as a background assumption or an intellectual assent to an idea, not a relationship. God as concept, not Person. No sense that the question matters urgently. Comfortable distance.</span>
+        </div>
+        <div class="q-read p2">
+          <span class="q-read-label">Phase 2 signals</span>
+          <span class="q-read-text">"I've been thinking about it more than I used to." "There are moments when I wonder." "I want to believe more than I actually do." Any tension between what he knows intellectually and what he experiences in his gut. The question produces discomfort, curiosity, or longing — not settled comfort in either direction.</span>
+        </div>
+      </div>
+      <div class="q-followup">If he gives a brief answer: "What would it take for God to feel real to you? Like, what would change something?"</div>
+      <div class="q-guard">If he opens up here — if the conversation shifts and he becomes unexpectedly honest — this may be the moment to briefly, personally share what God has become for you. Not a testimony. One sentence: "I used to hold it at arm's length too. Something changed for me." Then stop and listen. Do not preach. Do not explain. He is at the threshold. Your job is to hold the door open, not push him through.</div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════════════ -->
+  <!-- SECTION 4: READING THE CONVERSATION                                -->
+  <!-- ═══════════════════════════════════════════════════════════════════ -->
+  <div class="section-header" style="margin-top:3.5rem">
+    <div class="section-number">4</div>
+    <div class="section-title-block">
+      <span class="section-eyebrow">After the Conversation</span>
+      <div class="section-title">Reading Where He Is</div>
+    </div>
+  </div>
+  <div class="section-rule"></div>
+
+  <p class="text-sm mb2">Within 24 hours of the conversation, while it is still fresh, fill in this placement guide privately. You don't need a score — you need a read. Trust what you heard, not what he said he believed.</p>
+
+  <table class="listen-table mb2">
+    <thead>
+      <tr>
+        <th>Signal</th>
+        <th>Phase 1</th>
+        <th>Phase 2</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>His good week is defined by…</td>
+        <td>Comfort, output, achievement, or peace from stress</td>
+        <td>Meaning, connection, or something that felt worth doing</td>
+      </tr>
+      <tr>
+        <td>His relationship with faith is…</td>
+        <td>A background given — cultural, inherited, unexamined</td>
+        <td>In motion — either moving away from it or tentatively toward it</td>
+      </tr>
+      <tr>
+        <td>His hard seasons produced…</td>
+        <td>No interior movement — he pushed through and moved on</td>
+        <td>A question still open — either toward God or away, but not settled</td>
+      </tr>
+      <tr>
+        <td>His formative men…</td>
+        <td>Absent, distant, or replaced by independent self-image</td>
+        <td>Partial — present but incomplete, leaving a named or unnamed hunger</td>
+      </tr>
+      <tr>
+        <td>His sense of "enough"…</td>
+        <td>Comfortable or resigned — no acknowledged gap</td>
+        <td>Contains a "but" — some acknowledged distance between expected and felt</td>
+      </tr>
+      <tr>
+        <td>His God-question…</td>
+        <td>Settled at arm's length — comfortable distance, no urgency</td>
+        <td>Active — curiosity, tension, longing, or a conscious pulling away</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="card">
+    <div class="card-title">When the signals are mixed</div>
+    <p>Most men will not fall cleanly into one phase. Treat the reading as a center of gravity, not a verdict. If four of six signals point to Phase 1 and two point to Phase 2, he is Phase 1 with emerging movement — and that movement is the most important thing to tend. If signals are evenly split, place him in Phase 2: the presence of any genuine movement is the more actionable finding.</p>
+    <p style="margin-top:.75rem">The question is not "what phase is he?" but "what does he need from me next?" Let that guide the placement.</p>
+  </div>
+
+  <!-- NOTES -->
+  <div class="notes-area mt1">
+    <span class="notes-label">Your notes from the conversation</span>
+    <div class="notes-lines">
+      <div class="notes-line"></div><div class="notes-line"></div>
+      <div class="notes-line"></div><div class="notes-line"></div>
+      <div class="notes-line"></div><div class="notes-line"></div>
+      <div class="notes-line"></div><div class="notes-line"></div>
+    </div>
+  </div>
+
+  <div class="notes-area">
+    <span class="notes-label">Placement: Phase 1 / Phase 2 &nbsp;·&nbsp; Key signal that anchored the read</span>
+    <div class="notes-lines">
+      <div class="notes-line"></div><div class="notes-line"></div>
+      <div class="notes-line"></div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════════════ -->
+  <!-- SECTION 5: WHAT COMES NEXT                                         -->
+  <!-- ═══════════════════════════════════════════════════════════════════ -->
+  <div class="section-header" style="margin-top:3.5rem">
+    <div class="section-number">5</div>
+    <div class="section-title-block">
+      <span class="section-eyebrow">Pastoral Response</span>
+      <div class="section-title">What to Do Next</div>
+    </div>
+  </div>
+  <div class="section-rule"></div>
+
+  <p class="text-sm mb2">Do not share your placement conclusion with him. Act on it. The goal of this conversation is not to produce a report — it is to produce a next step. One specific, concrete, personal next step.</p>
+
+  <div class="next-cards">
+    <div class="next-card p1">
+      <div class="next-card-header">If he is in Phase 1</div>
+      <div class="next-card-body">
+        <ul>
+          <li>Keep meeting. Presence is the entire strategy at this phase. One more coffee, one more shared activity, one more honest conversation. Do not escalate the religious content.</li>
+          <li>Find a shared activity: a service project, a sporting event, a Saturday morning project. Men at Phase 1 bond through action, not conversation.</li>
+          <li>Name the ache only if he named it first. If he expressed dissatisfaction with his achieved life in Question 5, you can return to it gently at a future meeting: "You said something last time that stuck with me..."</li>
+          <li>Introduce him to one other man from the parish community — not as a ministry move, but as a natural friendship extension. Community precedes proclamation.</li>
+          <li>Pray for him by name. Tell the core team leader his first name so others pray too. Intercession is not passive — it is the primary pastoral tool for Phase 1.</li>
+          <li>Timeline: expect 3–6 months before movement becomes visible. Do not rush. Hard ground requires time and repeated cultivation.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="next-card p2">
+      <div class="next-card-header">If he is in Phase 2</div>
+      <div class="next-card-body">
+        <ul>
+          <li>Name the question he is already asking. In your next meeting, reflect back what you heard: "Last time you mentioned something that felt unfinished to me — you said..." Give the question a name so it becomes something he can consciously hold.</li>
+          <li>Share your own story — briefly and personally. Not an argument for faith. One sentence about what changed for you and what it cost. Let him sit with it. Answer questions only if he asks.</li>
+          <li>Invite to a specific, low-commitment event: a men's evening, a short talk, a service project — something that puts him in proximity to other men who have crossed the threshold without demanding he commit to anything.</li>
+          <li>Offer the kerygma in conversation, not lecture form. "Do you want to know what I actually believe happened to me?" — and only if he says yes.</li>
+          <li>If he is spiritually open and the relationship is warm, consider inviting him to a ChristLife Discovering Christ session or an equivalent kerygmatic on-ramp. Frame it as going with him, not sending him.</li>
+          <li>Timeline: movement in Phase 2 can happen quickly once the right question is named. Meet monthly at minimum. Stay attentive to when the ache intensifies — those are the threshold moments.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">The one thing that must not happen</div>
+    <p>Do not complete this conversation and then disappear. The most damaging pastoral move at Phases 1 and 2 is a meaningful conversation followed by silence. A man who opens up — even slightly, even about non-religious things — and then hears nothing has learned that this kind of conversation leads nowhere. His willingness to open again will be lower next time.</p>
+    <p style="margin-top:.75rem">Within one week of the conversation, reach out with something specific: a text referencing something he mentioned, an invitation to a concrete next activity, a question that shows you were listening. The follow-up is not optional. It is the conversation.</p>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════════════ -->
+  <!-- SECTION 6: COMPANION CARE                                          -->
+  <!-- ═══════════════════════════════════════════════════════════════════ -->
+  <div class="section-header" style="margin-top:3.5rem">
+    <div class="section-number">6</div>
+    <div class="section-title-block">
+      <span class="section-eyebrow">For the Companion</span>
+      <div class="section-title">Taking Care of the One Doing the Accompanying</div>
+    </div>
+  </div>
+  <div class="section-rule"></div>
+
+  <div class="card">
+    <div class="card-title">You cannot give what you don't have</div>
+    <p>This guide equips you to accompany men at Phases 1 and 2. It does so on the assumption that you are yourself in active formation — that you have a prayer life, a small group, a mentor, and regular access to the sacraments. If you are not, the most important thing is not to begin accompanying others but to receive accompaniment yourself.</p>
+    <p style="margin-top:.75rem">Accompany no more than two or three men at a time in this way. The conversations are not taxing, but the sustained prayer and attentiveness required are. Quality of presence matters more than quantity of men.</p>
+  </div>
+
+  <div class="card mt1">
+    <div class="card-title">Bring the conversation to your core team</div>
+    <p>Every man you accompany using this guide should be known to your core team by first name. Not for reporting purposes — for intercession. Share a brief word with your team leader: "I met with [name] — he's Phase 1, pray for him." That is enough. The community of prayer surrounding a man at Phase 1 is often the hidden mechanism by which hard ground eventually cracks open.</p>
+    <p style="margin-top:.75rem">If you are uncertain about your placement read, bring it to your team leader or a more experienced companion for a second view. Two men listening to the same account will often confirm or refine the read in ways that strengthen the pastoral response.</p>
+  </div>
+
+  <div class="card mt1">
+    <div class="card-title">Signs that a man is ready for the standard assessment</div>
+    <p>The companion-facilitated conversation is the on-ramp. A man is ready for the full discipleship assessment when he has:</p>
+    <p style="margin-top:.75rem">— Named his own spiritual question in explicit terms<br>
+    — Expressed willingness to examine his faith life in a structured way<br>
+    — Attended at least one parish event or kerygmatic encounter<br>
+    — Spent time with you in at least two or three substantive conversations</p>
+    <p style="margin-top:.75rem">At that point, he has enough spiritual self-awareness to engage the assessment honestly and benefit from its multi-dimensional placement. Pass the baton to the full tool, and continue alongside him as he moves into Phase 3.</p>
+  </div>
+
+  <!-- ── CLOSING QUOTE ───────────────────────────────────────────────── -->
+  <div class="closing">
+    <p class="closing-text">"The path forward is always through relationship: with God in prayer, with Christ in the sacraments, and with brothers who will tell you the truth in love."</p>
+    <span class="closing-source">— Forming Intentional Disciples, Cornerstone Men's Ministry · Our Lady of Grace</span>
+  </div>
+
+</div><!-- /app -->
+</body>
+</html>
